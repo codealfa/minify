@@ -37,10 +37,10 @@ class Base
 	const HTML_COMMENT = '(?:(?:<!--|(?<=[\s/^])-->)[^\r\n]*+)';
 
 	//Regex for HTML attributes
-	const HTML_ATTRIBUTE = '[^\s/"\'=<>]*+(?:\s*=(?>\s*+"[^">]*+"|\s*+\'[^\'>]*+\'|[^\s>]*+[\s>]))?';
+	const HTML_ATTRIBUTE = '[^\s/"\'=<>]*+(?:\s*=(?>\s*+"[^"]*+"|\s*+\'[^\']*+\'|[^\s>]*+[\s>]))?';
 	
 	//Regex for HTML attribute values
-	const ATTRIBUTE_VALUE = '(?>(?<=")[^">]*+|(?<=\')[^\'>]*+|(?<==)[^\s*+>]*+)'; 
+	const ATTRIBUTE_VALUE = '(?>(?<=")[^"]*+|(?<=\')[^\']*+|(?<==)[^\s*+>]*+)'; 
 
         const URI = '(?<=url)\(\s*+(?:"[^"]*+"|\'[^\']*+\'|[^)]*+)\s*+\)';
 
