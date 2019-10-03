@@ -44,9 +44,9 @@
  * 
  */
 
-namespace JchOptimize\LIBS;
+namespace JchOptimize\Minify;
 
-class JS_Optimize extends Optimize
+class Js extends Base
 {
         public $js;
         protected $_prepareOnly;
@@ -54,7 +54,7 @@ class JS_Optimize extends Optimize
 
         public static function optimize($js, $options = array())
         {
-                $oMinifyJs = new JS_Optimize($js, $options);
+                $oMinifyJs = new Js($js, $options);
                 
                 try
                 {

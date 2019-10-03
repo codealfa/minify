@@ -5,9 +5,9 @@
  *
  */
 
-namespace JchOptimize\LIBS;
+namespace JchOptimize\Minify;
 
-class CSS_Optimize extends Optimize
+class Css extends Base
 {
 
         public $css;
@@ -23,7 +23,7 @@ class CSS_Optimize extends Optimize
          */
         public static function optimize($css, $options = array())
         {
-                $obj = new CSS_Optimize($css, $options);
+                $obj = new Css($css, $options);
 
                 try
                 {

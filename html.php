@@ -17,9 +17,9 @@
  * @author Samuel Marshall<sdmarshall73@gmail.com>
  */
 
-namespace JchOptimize\LIBS;
+namespace JchOptimize\Minify;
 
-class HTML_Optimize extends Optimize
+class Html extends Base
 {
         
         protected $_isXhtml         = false;
@@ -53,7 +53,7 @@ class HTML_Optimize extends Optimize
          */
         public static function optimize($html, $options = array())
         {
-                $min = new HTML_Optimize($html, $options);
+                $min = new Html($html, $options);
                 
                 try
                 {
@@ -296,7 +296,7 @@ class HTML_Optimize extends Optimize
                 }
                 else
                 {
-                        return JS_Optimize::optimize($content, array('prepareOnly' => TRUE));
+                        return Js::optimize($content, array('prepareOnly' => TRUE));
                 }
         }
 

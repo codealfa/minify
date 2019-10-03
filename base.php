@@ -20,11 +20,29 @@
  * If LICENSE file missing, see <http://www.gnu.org/licenses/>.
  */
 
-namespace JchOptimize\LIBS;
+namespace JchOptimize\Minify;
 
-class Optimize extends \JchOptimize\Core\Regextokenizer
+class Base 
 {
 
+        //regex for double quoted strings
+        const DOUBLE_QUOTE_STRING = '"(?>(?:\\\\.)?[^\\\\"]*+)+?(?:"|(?=$))';
+        //regex for single quoted string
+        const SINGLE_QUOTE_STRING = "'(?>(?:\\\\.)?[^\\\\']*+)+?(?:'|(?=$))";
+        //regex for block comments
+        const BLOCK_COMMENT = '/\*(?>[^/\*]++|//|\*(?!/)|(?<!\*)/)*+\*/';
+        //regex for line comments
+        const LINE_COMMENT = '//[^\r\n]*+';
+	//regex for HTML comments
+	const HTML_COMMENT = '(?:(?:<!--|(?<=[\s/^])-->)[^\r\n]*+)';
+
+	//Regex for HTML attributes
+	const HTML_ATTRIBUTE = '[^\s/"\'=<>]*+(?:\s*=(?>\s*+"[^">]*+"|\s*+\'[^\'>]*+\'|[^\s>]*+[\s>]))?';
+	
+	//Regex for HTML attribute values
+	const ATTRIBUTE_VALUE = '(?>(?<=")[^">]*+|(?<=\')[^\'>]*+|(?<==)[^\s*+>]*+)'; 
+
+        const URI = '(?<=url)\(\s*+(?:"[^"]*+"|\'[^\']*+\'|[^)]*+)\s*+\)';
 
         protected $_debug    = false;
         protected $_regexNum = -1;

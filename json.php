@@ -20,16 +20,16 @@
  * If LICENSE file missing, see <http://www.gnu.org/licenses/>.
  */
 
-namespace JchOptimize\LIBS;
+namespace JchOptimize\Minify;
 
-class JSON_Optimize extends Optimize
+class Json extends Base
 {
         public $json;
         
 
         public static function optimize($json, $options = array())
         {
-                $obj = new JSON_Optimize($json, $options);
+                $obj = new Json($json, $options);
                 
                 try
                 {
