@@ -1,9 +1,4 @@
 <?php
-
-/**
- * Class HTML_Optimize
- */
-
 /**
  * Compress HTML
  *

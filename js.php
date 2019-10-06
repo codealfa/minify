@@ -39,7 +39,7 @@
  * 
  * @author Samuel Marshall <sdmarshall73@gmail.com>
  * @copyright (c) 2002, Douglas Crockford <douglas@crockford.com> (jsmin.c)
- * @copyright (c) 2014, Samuel Marshall <sdmarshall73@gmail.com> (JS_Optimize.php)
+ * @copyright (c) 2014, Samuel Marshall <sdmarshall73@gmail.com> (js.php)
  * @license http://opensource.org/licenses/mit-license.php MIT License
  * 
  */
