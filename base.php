@@ -2,11 +2,11 @@
 
 /**
  * JCH Optimize - Aggregate and minify external resources for optmized downloads
- * 
- * @author Samuel Marshall <sdmarshall73@gmail.com>
+ *
+ * @author    Samuel Marshall <sdmarshall73@gmail.com>
  * @copyright Copyright (c) 2010 Samuel Marshall
- * @license GNU/GPLv3, See LICENSE file
- * 
+ * @license   GNU/GPLv3, See LICENSE file
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -22,109 +22,117 @@
 
 namespace JchOptimize\Minify;
 
-class Base 
+class Base
 {
 
-        //regex for double quoted strings
-        const DOUBLE_QUOTE_STRING = '"(?>(?:\\\\.)?[^\\\\"]*+)+?(?:"|(?=$))';
+	//regex for double quoted strings
+	const DOUBLE_QUOTE_STRING = '"(?>(?:\\\\.)?[^\\\\"]*+)+?(?:"|(?=$))';
 
-        //regex for single quoted string
-        const SINGLE_QUOTE_STRING = "'(?>(?:\\\\.)?[^\\\\']*+)+?(?:'|(?=$))";
+	//regex for single quoted string
+	const SINGLE_QUOTE_STRING = "'(?>(?:\\\\.)?[^\\\\']*+)+?(?:'|(?=$))";
 
-        //regex for block comments
-        const BLOCK_COMMENT = '/\*(?>[^/\*]++|//|\*(?!/)|(?<!\*)/)*+\*/';
+	//regex for block comments
+	const BLOCK_COMMENT = '/\*(?>[^/\*]++|//|\*(?!/)|(?<!\*)/)*+\*/';
 
-        //regex for line comments
-        const LINE_COMMENT = '//[^\r\n]*+';
-	
+	//regex for line comments
+	const LINE_COMMENT = '//[^\r\n]*+';
+
 	//regex for HTML comments
 	const HTML_COMMENT = '(?:(?:<!--|(?<=[\s/^])-->)[^\r\n]*+)';
 
 	//Regex for HTML attributes
 	const HTML_ATTRIBUTE = '[^\s/"\'=<>]*+(?:\s*=(?>\s*+"[^"]*+"|\s*+\'[^\']*+\'|[^\s>]*+[\s>]))?';
-	
+
 	//Regex for HTML attribute values
-	const ATTRIBUTE_VALUE = '(?>(?<=")[^"]*+|(?<=\')[^\']*+|(?<==)[^\s*+>]*+)'; 
+	const ATTRIBUTE_VALUE = '(?>(?<=")[^"]*+|(?<=\')[^\']*+|(?<==)[^\s*+>]*+)';
 
-        const URI = '(?<=url)\(\s*+(?:"[^"]*+"|\'[^\']*+\'|[^)]*+)\s*+\)';
+	const URI = '(?<=url)\(\s*+(?:"[^"]*+"|\'[^\']*+\'|[^)]*+)\s*+\)';
 
-        protected $_debug    = false;
-        protected $_regexNum = -1;
-        protected $_limit =0;
+	protected $_debug = false;
+	protected $_regexNum = -1;
+	protected $_limit = 0;
 
-        /**
-         * 
-         * @param type $rx
-         * @param type $code
-         * @param type $regexNum
-         * @return boolean
-         */
-        protected function _debug($rx, $code, $regexNum = 0)
-        {
-                if (!$this->_debug) return false;
+	/**
+	 *
+	 * @param   type  $rx
+	 * @param   type  $code
+	 * @param   type  $regexNum
+	 *
+	 * @return boolean
+	 */
+	protected function _debug($rx, $code, $regexNum = 0)
+	{
+		if (!$this->_debug) return false;
 
-                static $pstamp = 0;
-                
-                if($pstamp === 0)
-                {
-                        $pstamp = microtime(true);
-                        return;
-                }
-                
-                $nstamp = microtime(true);
-                $time = $nstamp - $pstamp;
-                
-                if($time > $this->_limit)
-                {
-                        print 'num=' . $regexNum . "\n";
-                        print 'time=' . $time . "\n\n";
-                }
+		static $pstamp = 0;
 
-                if ($regexNum == $this->_regexNum)
-                {
-                        print $rx . "\n";
-                        print $code . "\n\n";
-                }
+		if ($pstamp === 0)
+		{
+			$pstamp = microtime(true);
 
-                $pstamp = $nstamp;
-        }
+			return;
+		}
 
-        /**
-         * 
-         * @staticvar type $tm
-         * @param type $rx
-         * @param type $code
-         * @param type $replacement
-         * @param type $regex_num
-         * @return type
-         */
-        protected function _replace($rx, $replacement, $code, $regex_num, $callback=null)
-        {
-                static $tm = false;
+		$nstamp = microtime(true);
+		$time   = $nstamp - $pstamp;
 
-                if($tm === false)
-                {
-                       $this->_debug('', ''); 
-                       $tm = true;
-                }
-                
-                if(empty($callback))
-                {
-                        $op_code = preg_replace($rx, $replacement, $code);
-                }
-                else
-                {
-                        $op_code = preg_replace_callback($rx, $callback, $code);
-                }
-                
-                $this->_debug($rx, $code, $regex_num);
-		$error = @array_flip(get_defined_constants(true)['pcre'])[preg_last_error()];
+		if ($time > $this->_limit)
+		{
+			print 'num=' . $regexNum . "\n";
+			print 'time=' . $time . "\n\n";
+		}
+
+		if ($regexNum == $this->_regexNum)
+		{
+			print $rx . "\n";
+			print $code . "\n\n";
+		}
+
+		$pstamp = $nstamp;
+	}
+
+	/**
+	 *
+	 * @staticvar type $tm
+	 *
+	 * @param   type  $rx
+	 * @param   type  $code
+	 * @param   type  $replacement
+	 * @param   type  $regex_num
+	 *
+	 * @return type
+	 */
+	protected function _replace($rx, $replacement, $code, $regex_num, $callback = null)
+	{
+		static $tm = false;
+
+		if ($tm === false)
+		{
+			$this->_debug('', '');
+			$tm = true;
+		}
+
+		if (empty($callback))
+		{
+			$op_code = preg_replace($rx, $replacement, $code);
+		}
+		else
+		{
+			$op_code = preg_replace_callback($rx, $callback, $code);
+		}
+
+		$this->_debug($rx, $code, $regex_num);
+
+		$error = array_flip(array_filter(get_defined_constants(true)['pcre'], function ($value) {
+			return substr($value, -6) === '_ERROR';
+		}, ARRAY_FILTER_USE_KEY))[preg_last_error()];
+
 		if (preg_last_error() != PREG_NO_ERROR)
 		{
 			throw new \Exception($error);
 		}
 
-                return $op_code;
-        }
+		return $op_code;
+	}
 
 }
