@@ -16,7 +16,6 @@ class Css extends Base
          * Minify a CSS string
          *
          * @param string $css
-         *
          * @param array $options (currently ignored)
          *
          * @return string
@@ -35,13 +34,13 @@ class Css extends Base
                 }
         }
 
-        /**
-         * Constructor
-         *
-         * @param array $options (currently ignored)
-         *
-         * @return null
-         */
+	/**
+	 * Constructor
+	 *
+	 * @param          $css
+	 * @param   array  $options  (currently ignored)
+	 *
+	 */
         private function __construct($css, $options)
         {
                 $this->css = $css;
@@ -52,13 +51,12 @@ class Css extends Base
                 }
         }
 
-        /**
-         * Minify a CSS string
-         *
-         * @param string $css
-         *
-         * @return string
-         */
+	/**
+	 * Minify a CSS string
+	 *
+	 * @return string
+	 * @throws \Exception
+	 */
         private function _optimize()
         {
                 $s1 = self::DOUBLE_QUOTE_STRING;

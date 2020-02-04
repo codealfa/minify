@@ -76,6 +76,12 @@ class Js extends Base
                 }
         }
 
+	/**
+	 *
+	 * @return string
+	 *
+	 * @throws \Exception
+	 */
         private function _optimize()
         {
                 //regex for double quoted strings

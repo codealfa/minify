@@ -37,7 +37,7 @@ class Json extends Base
                 }
                 catch(\Exception $e)
                 {
-                        return $obj->js;
+                        return $obj->json;
                 }
         }
 
@@ -51,6 +51,12 @@ class Json extends Base
                 }
         }
 
+	/**
+	 *
+	 * @return string
+	 *
+	 * @throws \Exception
+	 */
         private function _optimize()
         {
                 //regex for double quoted strings

@@ -22,7 +22,7 @@
 
 namespace JchOptimize\Minify;
 
-class Base
+abstract class Base
 {
 
 	//regex for double quoted strings
@@ -54,16 +54,17 @@ class Base
 
 	/**
 	 *
-	 * @param   type  $rx
-	 * @param   type  $code
-	 * @param   type  $regexNum
+	 * @param   string   $regex
+	 * @param   string   $code
+	 * @param   integer  $regexNum
 	 *
-	 * @return boolean
+	 * @return boolean|void
 	 */
-	protected function _debug($rx, $code, $regexNum = 0)
+	protected function _debug($regex, $code, $regexNum = 0)
 	{
 		if (!$this->_debug) return false;
 
+		/** @var float $pstamp */
 		static $pstamp = 0;
 
 		if ($pstamp === 0)
@@ -84,7 +85,7 @@ class Base
 
 		if ($regexNum == $this->_regexNum)
 		{
-			print $rx . "\n";
+			print $regex . "\n";
 			print $code . "\n\n";
 		}
 
@@ -93,16 +94,18 @@ class Base
 
 	/**
 	 *
-	 * @staticvar type $tm
+	 * @staticvar bool $tm
 	 *
-	 * @param   type  $rx
-	 * @param   type  $code
-	 * @param   type  $replacement
-	 * @param   type  $regex_num
+	 * @param   string    $regex
+	 * @param   string    $replacement
+	 * @param   string    $code
+	 * @param   mixed     $regex_num
+	 * @param   callable  $callback
 	 *
-	 * @return type
+	 * @return string
+	 * @throws \Exception
 	 */
-	protected function _replace($rx, $replacement, $code, $regex_num, $callback = null)
+	protected function _replace($regex, $replacement, $code, $regex_num, $callback = null)
 	{
 		static $tm = false;
 
@@ -114,14 +117,14 @@ class Base
 
 		if (empty($callback))
 		{
-			$op_code = preg_replace($rx, $replacement, $code);
+			$op_code = preg_replace($regex, $replacement, $code);
 		}
 		else
 		{
-			$op_code = preg_replace_callback($rx, $callback, $code);
+			$op_code = preg_replace_callback($regex, $callback, $code);
 		}
 
-		$this->_debug($rx, $code, $regex_num);
+		$this->_debug($regex, $code, $regex_num);
 
 		$error = array_flip(array_filter(get_defined_constants(true)['pcre'], function ($value) {
 			return substr($value, -6) === '_ERROR';
