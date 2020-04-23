@@ -1,7 +1,7 @@
 <?php
 
 /**
- * JCH Optimize - Aggregate and minify external resources for optmized downloads
+ * JCH Optimize - Aggregate and minify external resources for optimized downloads
  *
  * @author    Samuel Marshall <sdmarshall73@gmail.com>
  * @copyright Copyright (c) 2010 Samuel Marshall
@@ -22,30 +22,44 @@
 
 namespace JchOptimize\Minify;
 
+defined('_JCH_EXEC') or die('Restricted access');
+
 abstract class Base
 {
 
 	//regex for double quoted strings
+	// language=RegExp
 	const DOUBLE_QUOTE_STRING = '"(?>(?:\\\\.)?[^\\\\"]*+)+?(?:"|(?=$))';
 
 	//regex for single quoted string
+	// language=RegExp
 	const SINGLE_QUOTE_STRING = "'(?>(?:\\\\.)?[^\\\\']*+)+?(?:'|(?=$))";
 
+	//regex for backtick quoted string
+	//language=RegExp
+	const BACK_TICK_STRING = '`(?>(?:\\\\.)?[^\\\\`]*+)+?(?:`|(?=$))';
+
 	//regex for block comments
+	// language=RegExp
 	const BLOCK_COMMENT = '/\*(?>[^/\*]++|//|\*(?!/)|(?<!\*)/)*+\*/';
 
 	//regex for line comments
+	// language=RegExp
 	const LINE_COMMENT = '//[^\r\n]*+';
 
 	//regex for HTML comments
+	// language=RegExp
 	const HTML_COMMENT = '(?:(?:<!--|(?<=[\s/^])-->)[^\r\n]*+)';
 
 	//Regex for HTML attributes
+	// language=RegExp
 	const HTML_ATTRIBUTE = '[^\s/"\'=<>]*+(?:\s*=(?>\s*+"[^"]*+"|\s*+\'[^\']*+\'|[^\s>]*+[\s>]))?';
 
 	//Regex for HTML attribute values
+	// language=RegExp
 	const ATTRIBUTE_VALUE = '(?>(?<=")[^"]*+|(?<=\')[^\']*+|(?<==)[^\s*+>]*+)';
 
+	// language=RegExp
 	const URI = '(?<=url)\(\s*+(?:"[^"]*+"|\'[^\']*+\'|[^)]*+)\s*+\)';
 
 	protected $_debug = false;

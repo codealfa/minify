@@ -39,12 +39,13 @@
  * 
  * @author Samuel Marshall <sdmarshall73@gmail.com>
  * @copyright (c) 2002, Douglas Crockford <douglas@crockford.com> (jsmin.c)
- * @copyright (c) 2014, Samuel Marshall <sdmarshall73@gmail.com> (js.php)
- * @license http://opensource.org/licenses/mit-license.php MIT License
- * 
+ * @copyright Copyright (c) 2020 Samuel Marshall
+ * @license   GNU/GPLv3, See LICENSE file
  */
 
 namespace JchOptimize\Minify;
+
+defined('_JCH_EXEC') or die('Restricted access');
 
 class Js extends Base
 {
@@ -90,6 +91,9 @@ class Js extends Base
                 //regex for single quoted string
                 $s2 = self::SINGLE_QUOTE_STRING;
 
+                //regex for backtick quoted string
+	        $s3 = self::BACK_TICK_STRING;
+
                 //regex for block comments
                 $b = self::BLOCK_COMMENT;
 
@@ -121,13 +125,14 @@ class Js extends Base
                 $ws = '\x00-\x09\x0B\x0C\x0E-\x1F\x7F';
 
                 //Remove spaces before regexp literals
-                $rx = "#(?>[$ws ]*+(?(?=[^'\"/]*+(?<=[$ws ])/)[^'\"/$ws ]*+(?(?=['\"/])(?>$s1|$s2|$b|$c|$x|/)?)"
-                        . "|[^'\"/]*+(?>$s1|$s2|$b|$c|$x|/)?))*?\K"
+                $rx = "#(?>[$ws ]*+(?(?=[^'\"/`]*+(?<=[$ws ])/)[^'\"/`$ws ]*+(?(?=['\"/`])(?>$s1|$s2|$s3|$b|$c|$x|/)?)"
+                        . "|[^'\"/`]*+(?>$s1|$s2|$s3|$b|$c|$x|/)?))*?\K"
                         . "(?>(?=[$ws ]++/)(?:(?<=$x1|$x2)(?>[$ws ]++($x3))|(?<=$x4)(?>[$ws ]++($x3))(?=\.(?>$x5)))|$)#siS";
                 $this->js = $this->_replace($rx, '$1$2', $this->js, '1');
 
 		//remove HTML comments
-		$r1 = "(?>[<\]\-]?[^'\"<\]\-/]*+(?>$s1|$s2|$b|$c|$x|/)?)";
+	        //language=RegExp
+		$r1 = "(?>[<\]\-]?[^'\"`<\]\-/]*+(?>$s1|$s2|$s3|$b|$c|$x|/)?)";
 		$rx = "#{$r1}*?\K(?>{$h}|$)#si";
 		$this->js = $this->_replace($rx, '', $this->js, '1B');
 
@@ -137,27 +142,27 @@ class Js extends Base
                 }
 
                 //replace line comments with line feed
-                $rx = "#(?>[^'\"/]*+(?>{$s1}|{$s2}|{$x}|{$b}|/(?![*/]))?)*?\K(?>{$c}|$)#si";
+                $rx = "#(?>[^'\"/`]*+(?>{$s1}|{$s2}|{$s3}|{$x}|{$b}|/(?![*/]))?)*?\K(?>{$c}|$)#si";
                 $this->js = $this->_replace($rx, "\n", $this->js, '2');
 
                 //replace block comments with single space
-                $rx = "#(?>[^'\"/]*+(?>{$s1}|{$s2}|{$x}|/(?![*/]))?)*?\K(?>{$b}|$)#si";
+                $rx = "#(?>[^'\"/`]*+(?>{$s1}|{$s2}|{$s3}|{$x}|/(?![*/]))?)*?\K(?>{$b}|$)#si";
                 $this->js = $this->_replace($rx, ' ', $this->js, '3');
 
                 //convert carriage returns to line feeds
-                $rx = "#(?>[^'\"/\\r]*+(?>$s1|$s2|$x|/)?)*?\K(?>\\r\\n?|$)#si";
+                $rx = "#(?>[^'\"`/\\r]*+(?>$s1|$s2|$s3|$x|/)?)*?\K(?>\\r\\n?|$)#si";
                 $this->js = $this->_replace($rx, "\n", $this->js, '4');
 
                 //convert all other control characters to space
-                $rx = "#(?>[^'\"/$ws]*+(?>$s1|$s2|$x|/)?)*?\K(?>[$ws]++|$)#si";
+                $rx = "#(?>[^'\"`/$ws]*+(?>$s1|$s2|$s3|$x|/)?)*?\K(?>[$ws]++|$)#si";
                 $this->js = $this->_replace($rx, ' ', $this->js, '5');
 
                 //replace runs of whitespace with single space or linefeed
-                $rx = "#(?>[^'\"/\\n ]*+(?>{$s1}|{$s2}|{$x}|[ \\n](?![ \\n])|/)?)*?\K(?:[ ]++(?=\\n)|\\n\K\s++|[ ]\K[ ]++|$)#si";
+                $rx = "#(?>[^'\"`/\\n ]*+(?>{$s1}|{$s2}|{$s3}|{$x}|[ \\n](?![ \\n])|/)?)*?\K(?:[ ]++(?=\\n)|\\n\K\s++|[ ]\K[ ]++|$)#si";
                 $this->js = $this->_replace($rx, '', $this->js, '6');
 
                 //if regex literal ends line (without modifiers) insert semicolon
-                $rx = "#(?>[/]?[^'\"/]*+(?>$s1|$s2|$x(?!\\n))?)*?(?:$x\K\\n(?![!\#%&`*./,:;<=>?@\^|~}\])\"'])|\K$)#si";
+                $rx = "#(?>[/]?[^'\"`/]*+(?>$s1|$s2|$s3|$x(?!\\n))?)*?(?:$x\K\\n(?![!\#%&`*./,:;<=>?@\^|~}\])\"'])|\K$)#si";
                 $this->js = $this->_replace($rx, ';', $this->js, '7');
 
                 //clean up
@@ -180,15 +185,15 @@ class Js extends Base
                 //regex for removing linefeeds
                 //remove linefeeds except if it precedes a non-ASCII character or an ASCII letter or digit or one of these 
                 //characters: ! \ $ _ [ ( { + - and if it follows a non-ASCII character or an ASCII letter or digit or one of these 
-                //characters: \ $ _ ] ) } + - " ' ...ie., all ASCII characters except those listed respectively
-		//(or one of these characters: ) " ' followed by a string)
-                $ln = '(?<=[!\#%&`*./,:;<=>?@\^|~{\[(])\n|\n(?=[\#%&`*./,:;<=>?@\^|~}\])])|(?<![\)"\'])\\n(?=[\'"])';
+                //characters: \ $ _ ] ) } + - " ' ` ...ie., all ASCII characters except those listed respectively
+		//(or one of these characters: ) " ' ` followed by a string)
+                $ln = '(?<=[!\#%&*./,:;<=>?@\^|~{\[(])\n|\n(?=[\#%&*./,:;<=>?@\^|~}\])])|(?<![\)"\'`])\\n(?=[\'"`])';
 
                 //line feeds to keep
-                $k2 = "(?<=[\$_a-z0-9\\\\\])}+\-\"']|$na)\\n(?=[!\$_a-z0-9\\\\\[({+\-]|$na)|(?<=[\)\"'])\\n(?=[\"'])";
+                $k2 = "(?<=[\$_a-z0-9\\\\\])}+\-\"'`]|$na)\\n(?=[!\$_a-z0-9\\\\\[({+\-]|$na)|(?<=[\)\"'`])\\n(?=[\"'`])";
 
                 //remove unnecessary linefeeds and spaces
-                $rx = "#(?>[^'\"/\\n ]*+(?>$s1|$s2|$x|/|$k1|$k2)?)*?\K(?>$sp|$ln|$)#si";
+                $rx = "#(?>[^'\"`/\\n ]*+(?>$s1|$s2|$s3|$x|/|$k1|$k2)?)*?\K(?>$sp|$ln|$)#si";
                 $this->js = $this->_replace($rx, '', $this->js, '9');
 
                 $this->js = trim($this->js);
