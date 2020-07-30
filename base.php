@@ -41,7 +41,7 @@ abstract class Base
 
 	//regex for block comments
 	// language=RegExp
-	const BLOCK_COMMENT = '/\*(?>[^/\*]++|//|\*(?!/)|(?<!\*)/)*+\*/';
+	const BLOCK_COMMENT = '/\*(?>[^*]++|\*(?!/))*+\*/';
 
 	//regex for line comments
 	// language=RegExp
