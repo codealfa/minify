@@ -245,7 +245,7 @@ class Html extends Base
 			// minify
 			$content = $this->_callMinifier($this->{'_' . $type . 'Minifier'}, $content);
 
-			return $this->_needsCdata($content) ? "{$openTag}/*<![CDATA[*/{$content}/*]]>*/{$closeTag}" : "{$openTag}{$content}{$closeTag}";
+			return $this->_needsCdata($content, $type) ? "{$openTag}/*<![CDATA[*/{$content}/*]]>*/{$closeTag}" : "{$openTag}{$content}{$closeTag}";
 		}
 		else
 		{
@@ -259,9 +259,9 @@ class Html extends Base
 	 *
 	 * @return string
 	 */
-	protected function _needsCdata($str)
+	protected function _needsCdata($str, $type)
 	{
-		return ($this->_isXhtml && preg_match('#(?:[<&]|\-\-|\]\]>)#', $str));
+		return ($this->_isXhtml && $type != 'json' && preg_match('#(?:[<&]|\-\-|\]\]>)#', $str));
 	}
 
 	/**
