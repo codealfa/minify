@@ -116,13 +116,13 @@ class Html extends Base
 			//Remove comments (not containing IE conditional comments)
 			$rx          = "#(?><?[^<]*+(?>$pr|$sc|$st|$tx|<!--\[(?><?[^<]*+)*?"
 				. "<!\s*\[(?>-?[^-]*+)*?--!?>|<!DOCTYPE[^>]++>)?)*?\K(?:$x|$)#i";
-			$this->_html = $this->_replace($rx, '', $this->_html, '1');
+			$this->_html = $this->_replace($rx, '', $this->_html, 'html1');
 		}
 
 		//Reduce runs of whitespace outside all elements to one
 		$rx          = "#(?>[^<]*+(?:$pr|$sc|$st|$tx|$x|<(?>[^>=]*+(?:=\s*+(?:$s1|$s2|['\"])?|(?=>)))*?>)?)*?\K"
 			. '(?:[\t\f ]++(?=[\r\n]\s*+<)|(?>\r?\n|\r)\K\s++(?=<)|[\t\f]++(?=[ ]\s*+<)|[\t\f]\K\s*+(?=<)|[ ]\K\s*+(?=<)|$)#i';
-		$this->_html = $this->_replace($rx, '', $this->_html, '2');
+		$this->_html = $this->_replace($rx, '', $this->_html, 'html2');
 
 		//Minify scripts
 		//invalid scripts
@@ -132,7 +132,7 @@ class Html extends Base
 		$rx          = "#(?><?[^<]*+(?:$x|$nsc|$nst)?)*?\K"
 			. "(?:(<script\b(?!(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?(?:text|application)/(?:javascript|[^'\"\s>]*?json)))[^<>]*+>)((?><?[^<]*+)*?)(</\s*+script\s*+>)|"
 			. "(<style\b(?!(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?text/(?:css|stylesheet)))[^<>]*+>)((?><?[^<]*+)*?)(</\s*+style\s*+>)|$)#i";
-		$this->_html = $this->_replace($rx, '', $this->_html, '3', array($this, '_minifyCB'));
+		$this->_html = $this->_replace($rx, '', $this->_html, 'html3', array($this, '_minifyCB'));
 
 		if ($this->_minifyLevel < 1)
 		{
@@ -142,7 +142,7 @@ class Html extends Base
 		//Replace line feed with space (legacy)
 		$rx          = "#(?>[^<]*+(?:$pr|$sc|$st|$tx|$x|<(?>[^>=]*+(?:=\s*+(?:$s1|$s2|['\"])?|(?=>)))*?>)?)*?\K"
 			. '(?:[\r\n\t\f]++(?=<)|$)#i';
-		$this->_html = $this->_replace($rx, ' ', $this->_html, '4');
+		$this->_html = $this->_replace($rx, ' ', $this->_html, 'html4');
 
 		// remove ws around block elements preserving space around inline elements
 		//block/undisplayed elements
@@ -164,19 +164,19 @@ class Html extends Base
 
 		$rx          = "#(?>\s*+(?:$pr|$sc|$st|$tx|$x|<(?:(?>$i)\b[^>]*+>|(?:/(?>$i)\b>|(?>$i2)\b[^>]*+>)\s*+)|<[^>]*+>)|[^<]++)*?\K"
 			. "(?:\s++(?=<(?>$b|$b2)\b)|(?:</(?>$b)\b>|<(?>$b2)\b[^>]*+>)\K\s++(?!<(?>$i|$i2)\b)|$)#i";
-		$this->_html = $this->_replace($rx, '', $this->_html, '5');
+		$this->_html = $this->_replace($rx, '', $this->_html, 'html5');
 
 		//Replace runs of whitespace inside elements with single space escaping pre, textarea, scripts and style elements
 		//elements to escape
 		$e = 'pre|script|style|textarea';
 
 		$rx          = "#(?>[^<]*+(?:$pr|$sc|$st|$tx|$x|<[^>]++>[^<]*+))*?(?:(?:<(?!$e|!)[^>]*+>)?(?>\s?[^\s<]*+)*?\K\s{2,}|\K$)#i";
-		$this->_html = $this->_replace($rx, ' ', $this->_html, '6');
+		$this->_html = $this->_replace($rx, ' ', $this->_html, 'html6');
 
 		//Remove additional ws around attributes
 		$rx          = "#(?>\s?(?>[^<>]*+(?:<!(?!DOCTYPE)(?>>?[^>]*+)*?>[^<>]*+)?<|(?=[^<>]++>)[^\s>'\"]++(?>$s1|$s2)?|[^<]*+))*?\K"
 			. "(?>\s\s++|$)#i";
-		$this->_html = $this->_replace($rx, ' ', $this->_html, '7');
+		$this->_html = $this->_replace($rx, ' ', $this->_html, 'html7');
 
 		if ($this->_minifyLevel < 2)
 		{
@@ -187,7 +187,7 @@ class Html extends Base
 		$rx          = "#(?:(?=[^<>]++>)|(?><?[^<]*+(?>$x|$nsc|$nst|<(?!(?:script|style|link)|/html>))?)*?"
 			. "<(?:(?:script|style|link)|/html>))(?>[ ]?[^ >]*+)*?\K"
 			. '(?: (?:type|language)=["\']?(?:(?:text|application)/(?:javascript|css)|javascript)["\']?|[^<]*+\K$)#i';
-		$this->_html = $this->_replace($rx, '', $this->_html, '8');
+		$this->_html = $this->_replace($rx, '', $this->_html, 'html8');
 
 		$j = '<input type="hidden" name="[0-9a-f]{32}" value="1" />';
 
@@ -200,13 +200,13 @@ class Html extends Base
 			$rx          = "#(?:(?=[^>]*+>)|<[a-z0-9]++ )"
 				. "(?>[=]?[^=><]*+(?:=(?:$ns1|$ns2)|>(?>[^<]*+(?:$j|$x|$nsc|$nst|<(?![a-z0-9]++ ))?)*?(?:<[a-z0-9]++ |$))?)*?"
 				. "(?:=\K([\"'])([^\"'`=<>\s]++)\g{1}[ ]?|\K$)#i";
-			$this->_html = $this->_replace($rx, '$2 ', $this->_html, '9');
+			$this->_html = $this->_replace($rx, '$2 ', $this->_html, 'html9');
 		}
 
 		//Remove last whitespace in open tag
 		$rx          = "#(?>[^<]*+(?:$j|$x|$nsc|$nst|<(?![a-z0-9]++))?)*?(?:<[a-z0-9]++(?>\s*+[^\s>]++)*?\K"
 			. "(?:\s*+(?=>)|(?<=[\"'])\s++(?=/>))|$\K)#i";
-		$this->_html = $this->_replace($rx, '', $this->_html, '10');
+		$this->_html = $this->_replace($rx, '', $this->_html, 'html10');
 
 		return trim($this->_html);
 	}

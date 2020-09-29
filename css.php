@@ -89,36 +89,36 @@ class Css extends Base
 
                 // Remove all comments
                 $rx   = "#(?>/?[^/\"'(]*+(?:{$e})?)*?\K(?>{$b}|{$c}|$)#s";
-                $this->css = $this->_replace($rx, '', $this->css, '1');
+                $this->css = $this->_replace($rx, '', $this->css, 'css1');
 
                 // remove ws around , ; : { } in CSS Declarations and media queries
                 $rx   = "#(?>(?:[{};]|^)[^{}@;]*+{|(?:(?<![,;:{}])\s++(?![,;:{}]))?[^\s{};\"'(]*+(?:$e|[{};])?)+?\K"
                         . "(?:\s++(?=[,;:{}])|(?<=[,;:{}])\s++|\K$)#s";
-                $this->css = $this->_replace($rx, '', $this->css, '2');
+                $this->css = $this->_replace($rx, '', $this->css, 'css2');
 
                 //remove ws around , + > ~ { } in selectors
                 $rx   = "#(?>(?:(?<![,+>~{}])\s++(?![,+>~{}]))?[^\s{\"'(]*+(?:{[^{}]++}|{|$e)?)*?\K"
                         . "(?:\s++(?=[,+>~{}])|(?<=[,+>~{};])\s++|$\K)#s";
-                $this->css = $this->_replace($rx, '', $this->css, '3');
+                $this->css = $this->_replace($rx, '', $this->css, 'css3');
 
 
                 //remove last ; in block
                 $rx   = "#(?>(?:;(?!}))?[^;\"'(]*+(?:$e)?)*?\K(?:;(?=})|$\K)#s";
-                $this->css = $this->_replace($rx, '', $this->css, '4');
+                $this->css = $this->_replace($rx, '', $this->css, 'css4');
 
                 // remove ws inside urls
                 $rx   = "#(?>\(?[^\"'(]*+(?:$s)?)*?(?:(?<=\burl)\(\K\s++|\G"
                         . "(?(?=[\"'])['\"][^'\"]++['\"]|[^\s]++)\K\s++(?=\))|$\K)#s";
-                $this->css = $this->_replace($rx, '', $this->css, '5');
+                $this->css = $this->_replace($rx, '', $this->css, 'css5');
 
                 // minimize hex colors
                 $rx   = "#(?>\#?[^\#\"'(]*+(?:$e)?)*?(?:(?<!=)\#\K"
                         . "([a-f\d])\g{1}([a-f\d])\g{2}([a-f\d])\g{3}(?=[\s;}])|$\K)#is";
-                $this->css = $this->_replace($rx, '$1$2$3', $this->css, '6');
+                $this->css = $this->_replace($rx, '$1$2$3', $this->css, 'css6');
 
                 // reduce remaining ws to single space
                 $rx   = "#(?>[^\s'\"(]*+(?:$e|\s(?!\s))?)*?\K(?:\s\s++|$)#s";
-                $this->css = $this->_replace($rx, ' ', $this->css, '7');
+                $this->css = $this->_replace($rx, ' ', $this->css, 'css7');
 
                 
                 return trim($this->css);
