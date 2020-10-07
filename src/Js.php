@@ -43,9 +43,7 @@
  * @license   GNU/GPLv3, See LICENSE file
  */
 
-namespace JchOptimize\Minify;
-
-defined('_JCH_EXEC') or die('Restricted access');
+namespace CodeAlfa\Minify;
 
 class Js extends Base
 {

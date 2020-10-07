@@ -1,22 +1,6 @@
 <?php
-/**
- * Compress HTML
- *
- * This is a heavy regex-based removal of whitespace, unnecessary comments and
- * tokens. IE conditional comments are preserved. There are also options to have
- * STYLE and SCRIPT blocks compressed by callback functions.
- *
- * This  class was modified from the original class Minify_HTML that was
- * written by Stephen Clay <steve@mrclay.org>
- *
- * @author Samuel Marshall<sdmarshall73@gmail.com>
- * @copyright Copyright (c) 2010 Samuel Marshall
- * @license   GNU/GPLv3, See LICENSE file
- */
 
-namespace JchOptimize\Minify;
-
-defined('_JCH_EXEC') or die('Restricted access');
+namespace CodeAlfa\Minify;
 
 class Html extends Base
 {

@@ -1,0 +1,19 @@
+{
+  "name": "codealfa/minify",
+  "description": "A very fast minification library for Javacript, Css, Html, and Json",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Samuel Marshall",
+      "email": "sdmarshall73@gmail.com"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "CodeAlfa\\Minify\\": "src/"
+    }
+  }
+}
