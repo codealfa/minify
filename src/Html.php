@@ -2,6 +2,8 @@
 
 namespace CodeAlfa\Minify;
 
+##/*  defined('_JCH_EXEC') or die('Restricted access');  */##
+
 class Html extends Base
 {
 
