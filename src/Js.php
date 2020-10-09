@@ -69,7 +69,9 @@ class Js extends Base
 
         private function __construct($js, $options)
         {
-                $this->js = $js;
+	        parent::__construct();
+
+	        $this->js = $js;
                 
                 foreach ($options as $key => $value)
                 {

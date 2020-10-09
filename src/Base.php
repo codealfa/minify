@@ -47,6 +47,18 @@ abstract class Base
 	protected $_limit = 10;
 	protected $_printCode = true;
 
+	public function __construct()
+	{
+		if (!defined('CODEALFA_MINIFY_CONFIGURED'))
+		{
+			ini_set('pcre.backtrack_limit', 1000000);
+			ini_set('pcre.recursion_limit', 100000);
+			ini_set('pcre.jit', 0);
+
+			define('CODEALFA_MINIFY_CONFIGURED', 1);
+		}
+	}
+
 	/**
 	 *
 	 * @param   string   $regex

@@ -67,8 +67,10 @@ class Html extends Base
 	 *
 	 * @return null
 	 */
-	public function __construct($html, $options = array())
+	private function __construct($html, $options = array())
 	{
+		parent::__construct();
+
 		$this->_html = $html;
 
 		foreach ($options as $key => $value)

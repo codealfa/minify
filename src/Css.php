@@ -40,6 +40,8 @@ class Css extends Base
 	 */
         private function __construct($css, $options)
         {
+        	parent::__construct();
+
                 $this->css = $css;
                 
                 foreach ($options as $key => $value)

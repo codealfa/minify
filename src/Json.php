@@ -25,6 +25,8 @@ class Json extends Base
 
         private function __construct($json, $options)
         {
+        	parent::__construct();
+
                 $this->json = $json;
                 
                 foreach ($options as $key => $value)
