@@ -16,7 +16,7 @@ use CodeAlfa\Minify\Js
 $sMinifiedJs = Js::optimize($sOriginalJs);
 ```
 
-## Html Options
+## Html Minifier Options
 The HTML minifier takes the following options:
 
 * `cssMinifier` (default `null`): Callback function to minify the contents of in-page `<style>` elements.
