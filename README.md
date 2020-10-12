@@ -4,7 +4,7 @@ An extremely fast PHP based minification library for Javascript, CSS, Html and J
 ## Installation
 Run the following command to use the library in your projects:
 ```
-composer require codealfa
+composer require codealfa/minify
 ```
 
 ## Basic Usage
@@ -44,4 +44,4 @@ $sMinifiedHtml = Html::optimize($sOriginalHtml, $aOptions);
 ```
 
 ## License
-
+GPL-3.0 or later
