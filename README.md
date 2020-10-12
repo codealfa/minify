@@ -26,7 +26,7 @@ The HTML minifier takes the following options:
   * `0`: Runs of whitespace outside elements are reduced to one whitespace, if a line feed is included it will be preserved. (HTML comments are not removed). In-page scripts and styles are minified if callback functions were provided.
   * `1`: HTML comments are removed, along with whitespaces around block elements. Unnecessary whitespaces inside elements and around attributes are removed.
   * `2`: Redundant attributes eg., `type="text/javascript"` are removed. Quotes are removed from selected attributes if the isHtml5 option is set to `true`.
-* `isXhtml` (default `false`): HTML content treated as XHTML1.0. In-page javascript content with that contains characters that needs escaping in XML will be surrounded by `/*<![CDATA[*/` and `/*]]>*/`
+* `isXhtml` (default `false`): HTML content treated as XHTML1.0. In-page javascript content with characters that needs escaping in XML will be surrounded by `/*<![CDATA[*/` and `/*]]>*/`
 * `isHtml5` (default `false`): If set to `true` then when `minifyLevel` is set to `2`, quotes are removed from attibutes if they don't contain characters that necessitates quoting.
 
 **Example:**
