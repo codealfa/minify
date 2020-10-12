@@ -11,7 +11,7 @@ composer require codealfa/minify
 You can use any of the minifiers in the following way:
 
 ```php
-use CodeAlfa\Minify\Js
+use CodeAlfa\Minify\Js;
 
 $sMinifiedJs = Js::optimize($sOriginalJs);
 ```
@@ -31,7 +31,7 @@ The HTML minifier takes the following options:
 
 **Example:**
 ```php
-use CodeAlfa\Minify\Html
+use CodeAlfa\Minify\Html;
 
 $aOptions = array(
     'cssMinifier' => array('CodeAlfa\Minify\Css', 'optimize'),
