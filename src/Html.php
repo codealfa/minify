@@ -67,7 +67,7 @@ class Html extends Base
 	 *
 	 * @return null
 	 */
-	private function __construct($html, $options = array())
+	protected function __construct($html, $options = array())
 	{
 		parent::__construct();
 

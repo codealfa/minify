@@ -23,7 +23,7 @@ class Json extends Base
                 }
         }
 
-        private function __construct($json, $options)
+        protected function __construct($json, $options)
         {
         	parent::__construct();
 

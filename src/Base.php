@@ -47,7 +47,7 @@ abstract class Base
 	protected $_limit = 10;
 	protected $_printCode = true;
 
-	public function __construct()
+	protected function __construct()
 	{
 		if (!defined('CODEALFA_MINIFY_CONFIGURED'))
 		{

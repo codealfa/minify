@@ -38,7 +38,7 @@ class Css extends Base
 	 * @param   array  $options  (currently ignored)
 	 *
 	 */
-        private function __construct($css, $options)
+        protected function __construct($css, $options)
         {
         	parent::__construct();
 

@@ -67,7 +67,7 @@ class Js extends Base
                 }
         }
 
-        private function __construct($js, $options)
+        protected function __construct($js, $options)
         {
 	        parent::__construct();
 
