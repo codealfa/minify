@@ -42,12 +42,12 @@ abstract class Base
 	// language=RegExp
 	const URI = '(?<=url)\(\s*+(?:"[^"]*+"|\'[^\']*+\'|[^)]*+)\s*+\)';
 
-	protected $_debug = false;
-	protected $_regexNum = -1;
-	protected $_limit = 10;
-	protected $_printCode = true;
+	public $_debug = false;
+	public $_regexNum = -1;
+	public $_limit = 10;
+	public $_printCode = true;
 
-	protected function __construct()
+	public function __construct()
 	{
 		if (!defined('CODEALFA_MINIFY_CONFIGURED'))
 		{
@@ -67,7 +67,7 @@ abstract class Base
 	 *
 	 * @return boolean|void
 	 */
-	protected function _debug($regex, $code, $regexNum = 0)
+	public function _debug($regex, $code, $regexNum = 0)
 	{
 		if (!$this->_debug) return false;
 

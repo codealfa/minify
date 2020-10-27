@@ -249,7 +249,7 @@ class Html extends Base
 	 */
 	protected function _needsCdata($str, $type)
 	{
-		return ($this->_isXhtml && $type != 'json' && preg_match('#(?:[<&]|\-\-|\]\]>)#', $str));
+		return ($this->_isXhtml && $type == 'js' && preg_match('#(?:[<&]|\-\-|\]\]>)#', $str));
 	}
 
 	/**
