@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * @package   codealfa/minify
+ * @author    Samuel Marshall <sdmarshall73@gmail.com>
+ * @copyright Copyright (c) 2020 Samuel Marshall
+ * @license   GNU/GPLv3, or later. See LICENSE file
+ *
+ * If LICENSE file missing, see <http://www.gnu.org/licenses/>.
+ */
+
 namespace CodeAlfa\Minify;
 
 ##/*  defined('_JCH_EXEC') or die('Restricted access');  */##

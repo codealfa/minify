@@ -36,7 +36,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * --
- * 
+ *
+ * @package codealfa/minify
  * @author Samuel Marshall <sdmarshall73@gmail.com>
  * @copyright (c) 2002, Douglas Crockford <douglas@crockford.com> (jsmin.c)
  * @copyright Copyright (c) 2020 Samuel Marshall
