@@ -46,7 +46,9 @@ class Html extends Base
 	 */
 	public static function optimize($html, $options = array())
 	{
-		$min = new Html($html, $options);
+		$options['html'] = $html;
+
+		$min = new Html($options);
 
 		try
 		{
@@ -55,36 +57,6 @@ class Html extends Base
 		catch (\Exception $e)
 		{
 			return $min->_html;
-		}
-	}
-
-	/**
-	 * Create a minifier object
-	 *
-	 * @param   string  $html
-	 *
-	 * @param   array   $options
-	 *
-	 * 'cssMinifier' : (optional) callback function to process content of STYLE
-	 * elements.
-	 *
-	 * 'jsMinifier' : (optional) callback function to process content of SCRIPT
-	 * elements. Note: the type attribute is ignored.
-	 *
-	 * 'xhtml' : (optional boolean) should content be treated as XHTML1.0? If
-	 * unset, minify will sniff for an XHTML doctype.
-	 *
-	 * @return null
-	 */
-	public function __construct($html, $options = array())
-	{
-		parent::__construct();
-
-		$this->_html = $html;
-
-		foreach ($options as $key => $value)
-		{
-			$this->{'_' . $key} = $value;
 		}
 	}
 

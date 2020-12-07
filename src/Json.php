@@ -15,12 +15,14 @@ namespace CodeAlfa\Minify;
 
 class Json extends Base
 {
-        public $json;
+        public $_json;
         
 
         public static function optimize($json, $options = array())
         {
-                $obj = new Json($json, $options);
+        	$options['json'] = $json;
+
+                $obj = new Json($options);
                 
                 try
                 {
@@ -28,19 +30,7 @@ class Json extends Base
                 }
                 catch(\Exception $e)
                 {
-                        return $obj->json;
-                }
-        }
-
-        protected function __construct($json, $options)
-        {
-        	parent::__construct();
-
-                $this->json = $json;
-                
-                foreach ($options as $key => $value)
-                {
-                        $this->{'_' . $key} = $value;
+                        return $obj->_json;
                 }
         }
 
@@ -69,13 +59,13 @@ class Json extends Base
 
 		//remove all comments
 		$rx = "#(?>[^/\"'<]*+(?:$s1|$s2)?)*?\K(?>{$b}|{$c}|{$h}|$)#si";
-		$this->json = $this->_replace($rx, '', $this->json, '1');
+		$this->_json = $this->_replace($rx, '', $this->_json, '1');
 
 		//remove whitespaces around :,{}
                 $rx   = "#(?>[^\"'\s]*+(?:{$s1}|{$s2})?)*?\K(?>\s++(?=[:,{}\[\]])|(?<=[:,{}\[\]])\s++|$)#s";
-                $this->json = $this->_replace($rx, '', $this->json, '2');
+                $this->_json = $this->_replace($rx, '', $this->_json, '2');
 
-                return $this->json;
+                return $this->_json;
         }
 
 }

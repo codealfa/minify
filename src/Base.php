@@ -56,8 +56,13 @@ abstract class Base
 	public $_limit = 10;
 	public $_printCode = true;
 
-	protected function __construct()
+	protected function __construct($options)
 	{
+		foreach ($options as $key => $value)
+		{
+			$this->{'_' . $key} = $value;
+		}
+
 		if (!defined('CODEALFA_MINIFY_CONFIGURED'))
 		{
 			ini_set('pcre.backtrack_limit', 1000000);

@@ -16,7 +16,7 @@ namespace CodeAlfa\Minify;
 class Css extends Base
 {
 
-        public $css;
+        public $_css;
         
         /**
          * Minify a CSS string
@@ -28,7 +28,9 @@ class Css extends Base
          */
         public static function optimize($css, $options = array())
         {
-                $obj = new Css($css, $options);
+        	$options['css'] = $css;
+
+                $obj = new Css($options);
 
                 try
                 {
@@ -36,26 +38,7 @@ class Css extends Base
                 }
                 catch(\Exception $e)
                 {
-                        return $obj->css;
-                }
-        }
-
-	/**
-	 * Constructor
-	 *
-	 * @param          $css
-	 * @param   array  $options  (currently ignored)
-	 *
-	 */
-        public function __construct($css, $options)
-        {
-        	parent::__construct();
-
-                $this->css = $css;
-                
-                foreach ($options as $key => $value)
-                {
-                        $this->{'_' . $key} = $value;
+                        return $obj->_css;
                 }
         }
 
@@ -80,38 +63,38 @@ class Css extends Base
 
                 // Remove all comments
                 $rx   = "#(?>/?[^/\"'(]*+(?:{$e})?)*?\K(?>{$b}|{$c}|$)#s";
-                $this->css = $this->_replace($rx, '', $this->css, 'css1');
+                $this->_css = $this->_replace($rx, '', $this->_css, 'css1');
 
                 // remove ws around , ; : { } in CSS Declarations and media queries
                 $rx   = "#(?>(?:[{};]|^)[^{}@;]*+{|(?:(?<![,;:{}])\s++(?![,;:{}]))?[^\s{};\"'(]*+(?:$e|[{};])?)+?\K"
                         . "(?:\s++(?=[,;:{}])|(?<=[,;:{}])\s++|\K$)#s";
-                $this->css = $this->_replace($rx, '', $this->css, 'css2');
+                $this->_css = $this->_replace($rx, '', $this->_css, 'css2');
 
                 //remove ws around , + > ~ { } in selectors
                 $rx   = "#(?>(?:(?<![,+>~{}])\s++(?![,+>~{}]))?[^\s{\"'(]*+(?:{[^{}]++}|{|$e)?)*?\K"
                         . "(?:\s++(?=[,+>~{}])|(?<=[,+>~{};])\s++|$\K)#s";
-                $this->css = $this->_replace($rx, '', $this->css, 'css3');
+                $this->_css = $this->_replace($rx, '', $this->_css, 'css3');
 
 
                 //remove last ; in block
                 $rx   = "#(?>(?:;(?!}))?[^;\"'(]*+(?:$e)?)*?\K(?:;(?=})|$\K)#s";
-                $this->css = $this->_replace($rx, '', $this->css, 'css4');
+                $this->_css = $this->_replace($rx, '', $this->_css, 'css4');
 
                 // remove ws inside urls
                 $rx   = "#(?>\(?[^\"'(]*+(?:$s)?)*?(?:(?<=\burl)\(\K\s++|\G"
                         . "(?(?=[\"'])['\"][^'\"]++['\"]|[^\s]++)\K\s++(?=\))|$\K)#s";
-                $this->css = $this->_replace($rx, '', $this->css, 'css5');
+                $this->_css = $this->_replace($rx, '', $this->_css, 'css5');
 
                 // minimize hex colors
                 $rx   = "#(?>\#?[^\#\"'(]*+(?:$e)?)*?(?:(?<!=)\#\K"
                         . "([a-f\d])\g{1}([a-f\d])\g{2}([a-f\d])\g{3}(?=[\s;}])|$\K)#is";
-                $this->css = $this->_replace($rx, '$1$2$3', $this->css, 'css6');
+                $this->_css = $this->_replace($rx, '$1$2$3', $this->_css, 'css6');
 
                 // reduce remaining ws to single space
                 $rx   = "#(?>[^\s'\"(]*+(?:$e|\s(?!\s))?)*?\K(?:\s\s++|$)#s";
-                $this->css = $this->_replace($rx, ' ', $this->css, 'css7');
+                $this->_css = $this->_replace($rx, ' ', $this->_css, 'css7');
 
                 
-                return trim($this->css);
+                return trim($this->_css);
         }
 }
