@@ -46,7 +46,7 @@
 
 namespace CodeAlfa\Minify;
 
-##/*  defined('_JCH_EXEC') or die('Restricted access');  */##
+defined('_JCH_EXEC') or die('Restricted access');
 
 class Js extends Base
 {
