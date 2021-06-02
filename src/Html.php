@@ -11,10 +11,10 @@
 
 namespace CodeAlfa\Minify;
 
-defined('_JCH_EXEC') or die('Restricted access');
 
 class Html extends Base
 {
+        use \CodeAlfa\RegexTokenizer\Html;
 
 	protected $_isXhtml = false;
 	protected $_isHtml5 = false;
@@ -69,10 +69,9 @@ class Html extends Base
 	private function _optimize()
 	{
 		$x  = '<!--(?>-?[^-]*+)*?--!?>';
-		$s1 = self::DOUBLE_QUOTE_STRING;
-		$s2 = self::SINGLE_QUOTE_STRING;
-		$a  = self::HTML_ATTRIBUTE;
-		$u  = self::ATTRIBUTE_VALUE;
+		$s1 = self::DOUBLE_QUOTE_STRING();
+		$s2 = self::SINGLE_QUOTE_STRING();
+		$a  = self::HTML_ATTRIBUTE_CP();
 
 		//Regex for escape elements
 		$pr = "<pre\b[^>]*+>(?><?[^<]*+)*?</pre\s*+>";

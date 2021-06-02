@@ -11,50 +11,11 @@
 
 namespace CodeAlfa\Minify;
 
-defined('_JCH_EXEC') or die('Restricted access');
+use CodeAlfa\RegexTokenizer\Debug\Debug;
 
 abstract class Base
 {
-
-	//regex for double quoted strings
-	// language=RegExp
-	const DOUBLE_QUOTE_STRING = '"(?>(?:\\\\.)?[^\\\\"]*+)+?(?:"|(?=$))';
-
-	//regex for single quoted string
-	// language=RegExp
-	const SINGLE_QUOTE_STRING = "'(?>(?:\\\\.)?[^\\\\']*+)+?(?:'|(?=$))";
-
-	//regex for backtick quoted string
-	//language=RegExp
-	const BACK_TICK_STRING = '`(?>(?:\\\\.)?[^\\\\`]*+)+?(?:`|(?=$))';
-
-	//regex for block comments
-	// language=RegExp
-	const BLOCK_COMMENT = '/\*(?>[^*]++|\*(?!/))*+\*/';
-
-	//regex for line comments
-	// language=RegExp
-	const LINE_COMMENT = '//[^\r\n]*+';
-
-	//regex for HTML comments
-	// language=RegExp
-	const HTML_COMMENT = '(?:(?:<!--|(?<=[\s/^])-->)[^\r\n]*+)';
-
-	//Regex for HTML attributes
-	// language=RegExp
-	const HTML_ATTRIBUTE = '[^\s/"\'=<>]*+(?:\s*=(?>\s*+"[^"]*+"|\s*+\'[^\']*+\'|[^\s>]*+[\s>]))?';
-
-	//Regex for HTML attribute values
-	// language=RegExp
-	const ATTRIBUTE_VALUE = '(?>(?<=")[^"]*+|(?<=\')[^\']*+|(?<==)[^\s*+>]*+)';
-
-	// language=RegExp
-	const URI = '(?<=url)\(\s*+(?:"[^"]*+"|\'[^\']*+\'|[^)]*+)\s*+\)';
-
-	public $_debug = false;
-	public $_regexNum = -1;
-	public $_limit = 10;
-	public $_printCode = true;
+        use Debug;
 
 	protected function __construct($options)
 	{
@@ -71,47 +32,6 @@ abstract class Base
 
 			define('CODEALFA_MINIFY_CONFIGURED', 1);
 		}
-	}
-
-	/**
-	 *
-	 * @param   string   $regex
-	 * @param   string   $code
-	 * @param   integer  $regexNum
-	 *
-	 * @return boolean|void
-	 */
-	public function _debug($regex, $code, $regexNum = 0)
-	{
-		if (!$this->_debug) return false;
-
-		/** @var float $pstamp */
-		static $pstamp = 0;
-
-		if ($pstamp === 0)
-		{
-			$pstamp = microtime(true);
-
-			return;
-		}
-
-		$nstamp = microtime(true);
-		$time   = $nstamp - $pstamp;
-
-		if ($time > $this->_limit)
-		{
-			print 'num=' . $regexNum . "\n";
-			print 'time=' . $time . "\n\n";
-
-			if ($this->_printCode)
-			{
-				print $regex . "\n";
-				print $code . "\n\n";
-			}
-		}
-
-
-		$pstamp = $nstamp;
 	}
 
 	/**

@@ -11,10 +11,10 @@
 
 namespace CodeAlfa\Minify;
 
-defined('_JCH_EXEC') or die('Restricted access');
-
 class Json extends Base
 {
+        use \CodeAlfa\RegexTokenizer\Js;
+
         public $_json;
         
 
@@ -43,19 +43,19 @@ class Json extends Base
         private function _optimize()
         {
                 //regex for double quoted strings
-                $s1 = self::DOUBLE_QUOTE_STRING;
+                $s1 = self::DOUBLE_QUOTE_STRING();
 
                 //regex for single quoted string
-                $s2 = self::SINGLE_QUOTE_STRING;
+                $s2 = self::SINGLE_QUOTE_STRING();
 
                 //regex for block comments
-                $b = self::BLOCK_COMMENT;
+                $b = self::BLOCK_COMMENT();
 
                 //regex for line comments
-                $c = self::LINE_COMMENT;
+                $c = self::LINE_COMMENT();
 
 		//regex for HTML comments
-		$h = self::HTML_COMMENT;
+		$h = self::JS_HTML_COMMENT();
 
 		//remove all comments
 		$rx = "#(?>[^/\"'<]*+(?:$s1|$s2)?)*?\K(?>{$b}|{$c}|{$h}|$)#si";

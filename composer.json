@@ -10,7 +10,8 @@
     }
   ],
   "require": {
-    "php": ">=7.0"
+    "php": ">=7.0",
+    "codealfa/regextokenizer": "dev-master"
   },
   "autoload": {
     "psr-4": {
@@ -23,5 +24,11 @@
     "psr-4": {
       "CodeAlfa\\Minify\\Tests\\": "tests/"
     }
-  }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/codealfa/regextokenizer"
+    }
+  ]
 }

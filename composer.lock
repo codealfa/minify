@@ -4,17 +4,60 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d88f3f46029068defaa43f78fbbb3196",
-    "packages": [],
+    "content-hash": "c072145bb5f5de68adbd723cde83b9a3",
+    "packages": [
+        {
+            "name": "codealfa/regextokenizer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codealfa/regextokenizer.git",
+                "reference": "0c5a7cc5d8b5194d5adf30d49fecb0cacbf6bd56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codealfa/regextokenizer/zipball/0c5a7cc5d8b5194d5adf30d49fecb0cacbf6bd56",
+                "reference": "0c5a7cc5d8b5194d5adf30d49fecb0cacbf6bd56",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CodeAlfa\\RegexTokenizer\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Samuel Marshall",
+                    "email": "sdmarshall73@gmail.com"
+                }
+            ],
+            "description": "description",
+            "support": {
+                "source": "https://github.com/codealfa/regextokenizer/tree/master",
+                "issues": "https://github.com/codealfa/regextokenizer/issues"
+            },
+            "time": "2021-06-02T16:17:11+00:00"
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "codealfa/regextokenizer": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }

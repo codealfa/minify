@@ -46,10 +46,10 @@
 
 namespace CodeAlfa\Minify;
 
-defined('_JCH_EXEC') or die('Restricted access');
-
 class Js extends Base
 {
+        use \CodeAlfa\RegexTokenizer\Js;
+
         public $_js;
         protected $_prepareOnly;
         
@@ -79,22 +79,22 @@ class Js extends Base
         private function _optimize()
         {
                 //regex for double quoted strings
-                $s1 = self::DOUBLE_QUOTE_STRING;
+                $s1 = self::DOUBLE_QUOTE_STRING();
 
                 //regex for single quoted string
-                $s2 = self::SINGLE_QUOTE_STRING;
+                $s2 = self::SINGLE_QUOTE_STRING();
 
                 //regex for backtick quoted string
-	        $s3 = self::BACK_TICK_STRING;
+	        $s3 = self::BACK_TICK_STRING();
 
                 //regex for block comments
-                $b = self::BLOCK_COMMENT;
+                $b = self::BLOCK_COMMENT();
 
                 //regex for line comments
-                $c = self::LINE_COMMENT;
+                $c = self::LINE_COMMENT();
 
-		//regex for HTML comments
-		$h = self::HTML_COMMENT;
+		//regex for HTML comments in scripts
+		$h = self::JS_HTML_COMMENT();
 
                 //We have to do some manipulating with regexp literals; Their pattern is a little 'irregular' but 
                 //they need to be escaped

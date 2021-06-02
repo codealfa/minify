@@ -11,10 +11,9 @@
 
 namespace CodeAlfa\Minify;
 
-defined('_JCH_EXEC') or die('Restricted access');
-
 class Css extends Base
 {
+        use \CodeAlfa\RegexTokenizer\Css;
 
         public $_css;
         
@@ -50,16 +49,16 @@ class Css extends Base
 	 */
         private function _optimize()
         {
-                $s1 = self::DOUBLE_QUOTE_STRING;
-                $s2 = self::SINGLE_QUOTE_STRING;
+                $s1 = self::DOUBLE_QUOTE_STRING();
+                $s2 = self::SINGLE_QUOTE_STRING();
 
                 $es = $s1 . '|' . $s2;
                 $s  = '(?<!\\\\)(?:' . $es . ')|[\'"]';
                 $u  = self::URI;
                 $e  = '(?<!\\\\)(?:' . $es . '|' . $u . ')|[\'"(]';
 
-		$b = self::BLOCK_COMMENT;
-		$c = self::LINE_COMMENT;
+		$b = self::BLOCK_COMMENT();
+		$c = self::LINE_COMMENT();
 
                 // Remove all comments
                 $rx   = "#(?>/?[^/\"'(]*+(?:{$e})?)*?\K(?>{$b}|{$c}|$)#s";
