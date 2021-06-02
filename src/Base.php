@@ -11,11 +11,9 @@
 
 namespace CodeAlfa\Minify;
 
-use CodeAlfa\RegexTokenizer\Debug\Debug;
-
 abstract class Base
 {
-        use Debug;
+        use \CodeAlfa\RegexTokenizer\Base;
 
 	protected function __construct($options)
 	{
@@ -68,14 +66,7 @@ abstract class Base
 
 		$this->_debug($regex, $code, $regex_num);
 
-		$error = array_flip(array_filter(get_defined_constants(true)['pcre'], function ($value) {
-			return substr($value, -6) === '_ERROR';
-		}, ARRAY_FILTER_USE_KEY))[preg_last_error()];
-
-		if (preg_last_error() != PREG_NO_ERROR)
-		{
-			throw new \Exception($error);
-		}
+		self::throwExceptionOnPregError();
 
 		return $op_code;
 	}

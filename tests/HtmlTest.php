@@ -71,4 +71,13 @@ class HtmlTest extends TestCase
 
 		$this->assertEquals($expected, $result);
 	}
+
+	public function testTest()
+        {
+                $this->options['isXhtml'] = false;
+                $this->options['isHtml5'] = true;
+
+                $result = Html::optimize(file_get_contents(dirname(__FILE__) . '/html/html_test.html'), $this->options);
+                return false;
+        }
 }
