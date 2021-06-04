@@ -63,7 +63,6 @@ class JsTest extends TestCase
 	{
 		$result   = Js::optimize(file_get_contents(dirname(__FILE__) . '/javascript/easysocial.js'));
 		$expected = file_get_contents(dirname(__FILE__) . '/javascript/min/easysocial.min.js');
-		file_put_contents(dirname(__FILE__) . '/javascript/min/easysocial.result.js', $result);
 		$this->assertEquals($expected, $result);
 	}
 
