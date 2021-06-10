@@ -22,6 +22,13 @@ class CssTest extends TestCase
 		$expected = file_get_contents(dirname(__FILE__) . '/css/min/comments.min.css');
 		$this->assertEquals($expected, $result);
 	}
+
+	public function testMinify_HttpInUrl()
+	{
+		$result = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/httpinurl.css'));
+		$expected = file_get_contents(dirname(__FILE__) . '/css/min/httpinurl.min.css');
+		$this->assertEquals($expected, $result);
+	}
 	public function testMinify_Issue210()
 	{
 		$result   = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/issue210.css'));

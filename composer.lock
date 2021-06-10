@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codealfa/regextokenizer.git",
-                "reference": "3d32140a99546e8af330181d2b480b68882fbf96"
+                "reference": "e7b6fb3d6d6fbd3f501d86aea6d10ca7f473684e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codealfa/regextokenizer/zipball/3d32140a99546e8af330181d2b480b68882fbf96",
-                "reference": "3d32140a99546e8af330181d2b480b68882fbf96",
+                "url": "https://api.github.com/repos/codealfa/regextokenizer/zipball/e7b6fb3d6d6fbd3f501d86aea6d10ca7f473684e",
+                "reference": "e7b6fb3d6d6fbd3f501d86aea6d10ca7f473684e",
                 "shasum": ""
             },
             "require": {
@@ -44,7 +44,7 @@
                 "source": "https://github.com/codealfa/regextokenizer/tree/master",
                 "issues": "https://github.com/codealfa/regextokenizer/issues"
             },
-            "time": "2021-06-03T20:38:20+00:00"
+            "time": "2021-06-10T22:32:36+00:00"
         }
     ],
     "packages-dev": [],
