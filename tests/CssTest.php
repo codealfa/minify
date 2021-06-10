@@ -11,7 +11,11 @@ use CodeAlfa\Minify\Css;
  */
 class CssTest extends TestCase
 {
-
+//	public function testMinify_testcss()
+//	{
+//		$result = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/test.css'));
+//	}
+//
 	public function testMinify_Comments()
 	{
 		$result   = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/comments.css'));
