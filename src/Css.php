@@ -58,10 +58,10 @@ class Css extends Base
                 $e  = '(?<!\\\\)(?:' . $es . '|' . $u . ')|[\'"(]';
 
 		$b = self::BLOCK_COMMENT();
-		$c = self::LINE_COMMENT();
+		//$c = self::LINE_COMMENT();
 
                 // Remove all comments
-                $rx   = "#(?>/?[^/\"'(]*+(?:{$e})?)*?\K(?>{$b}|{$c}|$)#s";
+                $rx   = "#(?>/?[^/\"'(]*+(?:{$e})?)*?\K(?>{$b}|$)#s";
                 $this->_css = $this->_replace($rx, '', $this->_css, 'css1');
 
                 // remove ws around , ; : { } in CSS Declarations and media queries
