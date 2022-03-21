@@ -14,11 +14,6 @@ class CssTest extends TestCase
 	public function getCssOptimizeData(): array
 	{
 		return [
-			'test'            => [
-				'css'      => file_get_contents( dirname( __FILE__ ) . '/_data/css/comments.css' ),
-				'expected' => file_get_contents( dirname( __FILE__ ) . '/_data/css/min/comments.min.css' ),
-				'message'  => 'test'
-			],
 			'comments'        => [
 				'css'      => file_get_contents( dirname( __FILE__ ) . '/_data/css/comments.css' ),
 				'expected' => file_get_contents( dirname( __FILE__ ) . '/_data/css/min/comments.min.css' ),
