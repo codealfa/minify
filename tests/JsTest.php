@@ -88,15 +88,15 @@ class JsTest extends TestCase
 	public function testOptimize( $name )
 	{
 		$js    = $this->getJs( $name );
-		$jsMin = $this->getJsMin( $name );
+		$expected = $this->getJsMin( $name );
 
 		$actual = Js::Optimize( $js );
 
-		$this->assertEquals( $jsMin, $actual, $name );
+		$this->assertEquals( $expected, $actual, $name );
 
-		$actualMin = Js::Optimize( $jsMin );
+		$actualMin = Js::Optimize( $expected );
 
-		$this->assertEquals( $jsMin, $actualMin, $name . '_min' );
+		$this->assertEquals( $expected, $actualMin, $name . '_min' );
 
 	}
 
