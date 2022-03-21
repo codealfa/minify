@@ -11,84 +11,81 @@ use CodeAlfa\Minify\Css;
  */
 class CssTest extends TestCase
 {
-//	public function testMinify_testcss()
-//	{
-//		$result = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/test.css'));
-//	}
-//
-	public function testMinify_Comments()
+	public function getCssOptimizeData(): array
 	{
-		$result   = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/comments.css'));
-		$expected = file_get_contents(dirname(__FILE__) . '/css/min/comments.min.css');
-		$this->assertEquals($expected, $result);
+		return [
+			'test'            => [
+				'css'      => file_get_contents( dirname( __FILE__ ) . '/_data/css/comments.css' ),
+				'expected' => file_get_contents( dirname( __FILE__ ) . '/_data/css/min/comments.min.css' ),
+				'message'  => 'test'
+			],
+			'comments'        => [
+				'css'      => file_get_contents( dirname( __FILE__ ) . '/_data/css/comments.css' ),
+				'expected' => file_get_contents( dirname( __FILE__ ) . '/_data/css/min/comments.min.css' ),
+				'message'  => 'comments'
+			],
+			'httpinurl'       => [
+
+				'css'      => file_get_contents( dirname( __FILE__ ) . '/_data/css/httpinurl.css' ),
+				'expected' => file_get_contents( dirname( __FILE__ ) . '/_data/css/min/httpinurl.min.css' ),
+				'message'  => 'httpinurl'
+			],
+			'issue210' => [
+				'css'      => file_get_contents( dirname( __FILE__ ) . '/_data/css/issue210.css' ),
+				'expected' => file_get_contents( dirname( __FILE__ ) . '/_data/css/min/issue210.min.css' ),
+				'message'  => 'issue210'
+			],
+			'issue62'         => [
+				'css'      => file_get_contents( dirname( __FILE__ ) . '/_data/css/issue62.css' ),
+				'expected' => file_get_contents( dirname( __FILE__ ) . '/_data/css/min/issue62.min.css' ),
+				'message'  => 'issue62'
+			],
+			'paths_prepend'   => [
+				'css'      => file_get_contents( dirname( __FILE__ ) . '/_data/css/paths_prepend.css' ),
+				'expected' => file_get_contents( dirname( __FILE__ ) . '/_data/css/min/paths_prepend.min.css' ),
+				'message'  => 'paths_prepend'
+			],
+			'selectors'       => [
+				'css'      => file_get_contents( dirname( __FILE__ ) . '/_data/css/selectors.css' ),
+				'expected' => file_get_contents( dirname( __FILE__ ) . '/_data/css/min/selectors.min.css' ),
+				'message'  => 'selectors'
+			],
+			'styles'          => [
+				'css'      => file_get_contents( dirname( __FILE__ ) . '/_data/css/styles.css' ),
+				'expected' => file_get_contents( dirname( __FILE__ ) . '/_data/css/min/styles.min.css' ),
+				'message'  => 'styles'
+			],
+			'subsilver' => [
+				'css'      => file_get_contents( dirname( __FILE__ ) . '/_data/css/subsilver.css' ),
+				'expected' => file_get_contents( dirname( __FILE__ ) . '/_data/css/min/subsilver.min.css' ),
+				'message'  => 'subsilver'
+			],
+			'unusual_strings' => [
+				'css'      => file_get_contents( dirname( __FILE__ ) . '/_data/css/unusual_strings.css' ),
+				'expected' => file_get_contents( dirname( __FILE__ ) . '/_data/css/min/unusual_strings.min.css' ),
+				'message'  => 'unusual_strings'
+			],
+			'vladmirated'     => [
+				'css'      => file_get_contents( dirname( __FILE__ ) . '/_data/css/vladmirated.css' ),
+				'expected' => file_get_contents( dirname( __FILE__ ) . '/_data/css/min/vladmirated.min.css' ),
+				'message'  => 'vladmirated'
+			],
+			'custom'          => [
+				'css'      => file_get_contents( dirname( __FILE__ ) . '/_data/css/custom.css' ),
+				'expected' => file_get_contents( dirname( __FILE__ ) . '/_data/css/min/custom.min.css' ),
+				'message'  => 'custom'
+			],
+
+		];
 	}
 
-	public function testMinify_HttpInUrl()
+	/**
+	 * @dataProvider getCssOptimizeData
+	 */
+	public function testOptimize( $css, $expected, $message )
 	{
-		$result = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/httpinurl.css'));
-		$expected = file_get_contents(dirname(__FILE__) . '/css/min/httpinurl.min.css');
-		$this->assertEquals($expected, $result);
-	}
-	public function testMinify_Issue210()
-	{
-		$result   = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/issue210.css'));
-		$expected = file_get_contents(dirname(__FILE__) . '/css/min/issue210.min.css');
-		$this->assertEquals($expected, $result);
-	}
+		$actual = Css::optimize( $css );
 
-	public function testMinify_Issue62()
-	{
-		$result   = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/issue62.css'));
-		$expected = file_get_contents(dirname(__FILE__) . '/css/min/issue62.min.css');
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMinify_PathsPrepend()
-	{
-		$result   = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/paths_prepend.css'));
-		$expected = file_get_contents(dirname(__FILE__) . '/css/min/paths_prepend.min.css');
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMinify_Selectors()
-	{
-		$result   = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/selectors.css'));
-		$expected = file_get_contents(dirname(__FILE__) . '/css/min/selectors.min.css');
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMinify_Styles()
-	{
-		$result   = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/styles.css'));
-		$expected = file_get_contents(dirname(__FILE__) . '/css/min/styles.min.css');
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMinify_Subsilver()
-	{
-		$result   = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/subsilver.css'));
-		$expected = file_get_contents(dirname(__FILE__) . '/css/min/subsilver.min.css');
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMinify_UnusualStrings()
-	{
-		$result   = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/unusual_strings.css'));
-		$expected = file_get_contents(dirname(__FILE__) . '/css/min/unusual_strings.min.css');
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMinify_Vladmirated()
-	{
-		$result   = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/vladmirated.css'));
-		$expected = file_get_contents(dirname(__FILE__) . '/css/min/vladmirated.min.css');
-		$this->assertEquals($expected, $result);
-	}
-
-	public function testMinify_Custom()
-	{
-		$result   = Css::optimize(file_get_contents(dirname(__FILE__) . '/css/custom.css'));
-		$expected = file_get_contents(dirname(__FILE__) . '/css/min/custom.min.css');
-		$this->assertEquals(trim($expected), $result);
+		$this->assertEquals( $expected, $actual, $message );
 	}
 }
