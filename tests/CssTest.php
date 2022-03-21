@@ -7,7 +7,6 @@ use CodeAlfa\Minify\Css;
 
 
 /**
- * JsMin Unit Test
  */
 class CssTest extends TestCase
 {
