@@ -10,74 +10,83 @@ use CodeAlfa\Minify\Html;
  */
 class HtmlTest extends TestCase
 {
-	protected $options;
-
-	protected function setup(): void
+	public function getOptimizeHtmlData(): array
 	{
-		parent::setup();
-
-		$aOptions = array();
-
-		$aOptions['cssMinifier'] = array('CodeAlfa\Minify\Css', 'optimize');
-		$aOptions['jsMinifier'] = array('CodeAlfa\Minify\Js', 'optimize');
-		$aOptions['jsonMinifier'] = array('CodeAlfa\Minify\Json', 'optimize');
-		$aOptions['minifyLevel'] = 2;
-
-		$this->options = $aOptions;
-
+		return [
+			[
+				'file'     => 'html_a',
+				'expected' => 'html_a_basic',
+				'options'  => [
+					'minifyLevel' => 0
+				],
+				'message'  => 'HTML_a_basic'
+			],
+			[
+				'file'     => 'html_a',
+				'expected' => 'html_a_advanced',
+				'options'  => [
+					'minifyLevel' => 1
+				],
+				'message'  => 'HTML_a_advanced'
+			],
+			[
+				'file'     => 'html_a',
+				'expected' => 'html_a',
+				'options'  => [
+					'cssMinifier'  => [ 'CodeAlfa\Minify\Css', 'optimize' ],
+					'jsMinifier'   => [ 'CodeAlfa\Minify\Js', 'optimize' ],
+					'jsonMinifier' => [ 'CodeAlfa\Minify\Json', 'optimize' ],
+					'isXhtml'      => false,
+					'isHtml5'      => true,
+					'minifyLevel'  => 2
+				],
+				'message'  => 'HTML_a'
+			],
+			[
+				'file'     => 'html_b',
+				'expected' => 'html_b',
+				'options'  => [
+					'cssMinifier'  => [ 'CodeAlfa\Minify\Css', 'optimize' ],
+					'jsMinifier'   => [ 'CodeAlfa\Minify\Js', 'optimize' ],
+					'jsonMinifier' => [ 'CodeAlfa\Minify\Json', 'optimize' ],
+					'isXhtml'      => true,
+					'isHtml5'      => false,
+					'minifyLevel'  => 2
+				],
+				'message'  => 'HTML_b'
+			],
+			/*		[
+						'file' => 'html_test',
+						'expected' => 'html_test',
+						'options' => [
+							'isXhtml' => true,
+							'isHtml5' => false,
+							'minifyLevel' => 2
+						],
+						'message' => 'test'
+					] */
+		];
 	}
 
-	public function testHTML_a_basic()
+	/**
+	 * @dataProvider getOptimizeHtmlData
+	 */
+	public function testOptimize( $file, $expected, $options, $message )
 	{
-		$options = array();
-		$options['minifyLevel'] = 0;
+		$html     = $this->getHtml( $file );
+		$expected = $this->getHtmlMin( $expected );
+		$actual   = Html::optimize( $html, $options );
 
-		$result   = Html::optimize(file_get_contents(dirname(__FILE__) . '/html/html_a.html'), $options);
-		$expected = file_get_contents(dirname(__FILE__) . '/html/min/html_a_basic.min.html');
-		$this->assertEquals(trim($expected), $result);
+		$this->assertEquals( $expected, $actual, $message );
 	}
 
-	public function testHTML_a_advanced()
+	private function getHtml( $name )
 	{
-		$options = array();
-		$options['minifyLevel'] = 1;
-
-		$result   = Html::optimize(file_get_contents(dirname(__FILE__) . '/html/html_a.html'), $options);
-		$expected = file_get_contents(dirname(__FILE__) . '/html/min/html_a_advanced.min.html');
-		$this->assertEquals(trim($expected), $result);
+		return file_get_contents( dirname( __FILE__ ) . '/_data/html/' . $name . '.html' );
 	}
 
-	public function testHTML_a()
+	private function getHtmlMin( $name )
 	{
-		$this->options['isXhtml'] = false;
-		$this->options['isHtml5'] = true;
-
-		$result   = Html::optimize(file_get_contents(dirname(__FILE__) . '/html/html_a.html'), $this->options);
-		$expected = file_get_contents(dirname(__FILE__) . '/html/min/html_a.min.html');
-		$this->assertEquals(trim($expected), $result);
+		return file_get_contents( dirname( __FILE__ ) . '/_data/html/min/' . $name . '.min.html' );
 	}
-
-	public function testHTML_b()
-	{
-		$this->options['isXhtml'] = true;
-		$this->options['isHtml5'] = false;
-
-		$result   = Html::optimize(file_get_contents(dirname(__FILE__) . '/html/html_b.html'), $this->options);
-		$expected = trim(file_get_contents(dirname(__FILE__) . '/html/min/html_b.min.html'));
-		//	echo 'expected = ' . $expected;
-		//	echo 'result = ' .  $result;
-		//	exit;
-
-
-		$this->assertEquals($expected, $result);
-	}
-
-//	public function testTest()
-//        {
-//                $this->options['isXhtml'] = false;
-//                $this->options['isHtml5'] = true;
-//
-//               $result = Html::optimize(file_get_contents(dirname(__FILE__) . '/html/html_test.html'), $this->options);
-//                return false;
-//        }
 }
