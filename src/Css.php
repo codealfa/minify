@@ -48,15 +48,15 @@ class Css extends Base
      */
     private function _optimize(): string
     {
-        $s1 = self::DOUBLE_QUOTE_STRING();
-        $s2 = self::SINGLE_QUOTE_STRING();
+        $s1 = self::doubleQuoteStringToken();
+        $s2 = self::singleQuoteStringToken();
 
         $es = $s1 . '|' . $s2;
         $s  = '(?<!\\\\)(?:' . $es . ')|[\'"]';
-        $u  = self::CSS_URL_CP();
+        $u  = self::cssUrlWithCaptureValueToken();
         $e  = '(?<!\\\\)(?:' . $es . '|' . $u . ')|[\'"(]';
 
-        $b = self::BLOCK_COMMENT();
+        $b = self::blockCommentToken();
         //$c = self::LINE_COMMENT();
 
         // Remove all comments

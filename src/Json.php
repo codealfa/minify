@@ -46,20 +46,20 @@ class Json extends Base
      */
     private function _optimize(): string
     {
-        //regex for double quoted strings
-        $s1 = self::DOUBLE_QUOTE_STRING();
+        //regex for double-quoted strings
+        $s1 = self::doubleQuoteStringToken();
 
         //regex for single quoted string
-        $s2 = self::SINGLE_QUOTE_STRING();
+        $s2 = self::singleQuoteStringToken();
 
         //regex for block comments
-        $b = self::BLOCK_COMMENT();
+        $b = self::blockCommentToken();
 
         //regex for line comments
-        $c = self::LINE_COMMENT();
+        $c = self::lineCommentToken();
 
         //regex for HTML comments
-        $h = self::JS_HTML_COMMENT();
+        $h = self::jsHtmlCommentToken();
 
         //remove all comments
         $rx          = "#(?>[^/\"'<]*+(?:$s1|$s2)?)*?\K(?>{$b}|{$c}|{$h}|$)#si";

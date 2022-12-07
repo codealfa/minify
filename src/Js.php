@@ -77,23 +77,23 @@ class Js extends Base
      */
     private function _optimize(): string
     {
-        //regex for double quoted strings
-        $s1 = self::DOUBLE_QUOTE_STRING();
+        //regex for double-quoted strings
+        $s1 = self::doubleQuoteStringToken();
 
         //regex for single quoted string
-        $s2 = self::SINGLE_QUOTE_STRING();
+        $s2 = self::singleQuoteStringToken();
 
         //regex for backtick quoted string
-        $s3 = self::BACK_TICK_STRING();
+        $s3 = self::backTickStringToken();
 
         //regex for block comments
-        $b = self::BLOCK_COMMENT();
+        $b = self::blockCommentToken();
 
         //regex for line comments
-        $c = self::LINE_COMMENT();
+        $c = self::lineCommentToken();
 
         //regex for HTML comments in scripts
-        $h = self::JS_HTML_COMMENT();
+        $h = self::jsHtmlCommentToken();
 
         //We have to do some manipulating with regexp literals; Their pattern is a little 'irregular' but
         //they need to be escaped
@@ -191,5 +191,4 @@ class Js extends Base
 
         return $this->_js;
     }
-
 }

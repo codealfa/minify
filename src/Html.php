@@ -34,11 +34,11 @@ class Html extends Base
      */
     public static function cleanScript($content, $type)
     {
-        $s1 = self::DOUBLE_QUOTE_STRING();
-        $s2 = self::SINGLE_QUOTE_STRING();
-        $b  = self::BLOCK_COMMENT();
-        $l  = self::LINE_COMMENT();
-        $c  = self::HTML_COMMENT();
+        $s1 = self::doubleQuoteStringToken();
+        $s2 = self::singleQuoteStringToken();
+        $b  = self::blockCommentToken();
+        $l  = self::lineCommentToken();
+        $c  = self::htmlCommentToken();
 
         if ($type == 'css') {
             return preg_replace(
@@ -90,16 +90,16 @@ class Html extends Base
      */
     private function _optimize()
     {
-        $x  = self::HTML_COMMENT();
-        $s1 = self::DOUBLE_QUOTE_STRING();
-        $s2 = self::SINGLE_QUOTE_STRING();
-        $a  = self::HTML_ATTRIBUTE_CP();
+        $x  = self::htmlCommentToken();
+        $s1 = self::doubleQuoteStringToken();
+        $s2 = self::singleQuoteStringToken();
+        $a  = self::htmlAttributeWithCaptureValueToken();
 
         //Regex for escape elements
-        $pr = self::HTML_ELEMENT('pre');
-        $sc = self::HTML_ELEMENT('script');
-        $st = self::HTML_ELEMENT('style');
-        $tx = self::HTML_ELEMENT('textarea');
+        $pr = self::htmlElementToken('pre');
+        $sc = self::htmlElementToken('script');
+        $st = self::htmlElementToken('style');
+        $tx = self::htmlElementToken('textarea');
 
         if ($this->_minifyLevel > 0) {
             //Remove comments (not containing IE conditional comments)
