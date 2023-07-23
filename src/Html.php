@@ -11,7 +11,6 @@
 
 namespace CodeAlfa\Minify;
 
-
 use Exception;
 
 class Html extends Base
@@ -42,9 +41,9 @@ class Html extends Base
 
         if ($type == 'css') {
             return preg_replace(
-                    "#(?>[<\]\-]?[^'\"<\]\-/]*+(?>$s1|$s2|$b|$l|/)?)*?\K(?:$c|$)#i",
-                    '',
-                    $content
+                "#(?>[<\]\-]?[^'\"<\]\-/]*+(?>$s1|$s2|$b|$l|/)?)*?\K(?:$c|$)#i",
+                '',
+                $content
             );
         } else {
             return Js::optimize($content, array('prepareOnly' => true));
@@ -231,8 +230,8 @@ class Html extends Base
             $content = $this->_callMinifier($this->{'_' . $type . 'Minifier'}, $content);
 
             return $this->_needsCdata(
-                    $content,
-                    $type
+                $content,
+                $type
             ) ? "{$openTag}/*<![CDATA[*/{$content}/*]]>*/{$closeTag}" : "{$openTag}{$content}{$closeTag}";
         } else {
             return $m[0];
