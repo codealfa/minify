@@ -17,7 +17,7 @@ class Css extends Base
 {
     use \CodeAlfa\RegexTokenizer\Css;
 
-    public $_css;
+    public string $_css;
 
     /**
      * Minify a CSS string

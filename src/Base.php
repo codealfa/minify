@@ -23,24 +23,23 @@ abstract class Base
             $this->{'_' . $key} = $value;
         }
 
-        if ( ! defined('CODEALFA_MINIFY_CONFIGURED')) {
-            ini_set('pcre.backtrack_limit', 1000000);
-            ini_set('pcre.recursion_limit', 1000000);
-            ini_set('pcre.jit', 0);
+        if (!defined('CODEALFA_MINIFY_CONFIGURED')) {
+            ini_set('pcre.backtrack_limit', '1000000');
+            ini_set('pcre.recursion_limit', '1000000');
+            ini_set('pcre.jit', '0');
 
-            define('CODEALFA_MINIFY_CONFIGURED', 1);
+            define('CODEALFA_MINIFY_CONFIGURED', '1');
         }
     }
 
     /**
-     *
      * @staticvar bool $tm
      *
-     * @param   string         $regex
-     * @param   string         $replacement
-     * @param   string         $code
-     * @param   mixed          $regexNum
-     * @param   callable|null  $callback
+     * @param string $regex
+     * @param string $replacement
+     * @param string $code
+     * @param mixed $regexNum
+     * @param callable|null $callback
      *
      * @return string
      * @throws Exception

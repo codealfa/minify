@@ -17,23 +17,21 @@ class Html extends Base
 {
     use \CodeAlfa\RegexTokenizer\Html;
 
-    public $_html = '';
-    protected $_isXhtml = false;
-    protected $_isHtml5 = false;
+    public string $_html = '';
+    protected bool $_isXhtml = false;
+    protected bool $_isHtml5 = false;
     protected $_cssMinifier = null;
     protected $_jsMinifier = null;
     protected $_jsonMinifier = null;
-    protected $_minifyLevel = 0;
+    protected int $_minifyLevel = 0;
 
     /**
-     * @param $content
-     * @param $type
+     * @param string $content
+     * @param string $type
      *
      * @return string
-     *
-     * @psalm-param 'css'|'js' $type
      */
-    public static function cleanScript(string $content, string $type)
+    public static function cleanScript(string $content, string $type): string
     {
         $s1 = self::doubleQuoteStringToken();
         $s2 = self::singleQuoteStringToken();
@@ -89,7 +87,7 @@ class Html extends Base
      * @return string
      * @throws Exception
      */
-    private function _optimize()
+    private function _optimize(): string
     {
         $x  = self::htmlCommentToken();
         $s1 = self::doubleQuoteStringToken();
@@ -200,7 +198,7 @@ class Html extends Base
 
     /**
      *
-     * @param   array  $m
+     * @param   string[]  $m
      *
      * @return string
      */
