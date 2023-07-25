@@ -17,12 +17,8 @@ abstract class Base
 {
     use \CodeAlfa\RegexTokenizer\Base;
 
-    protected function __construct($options)
+    protected function __construct()
     {
-        foreach ($options as $key => $value) {
-            $this->{'_' . $key} = $value;
-        }
-
         if (!defined('CODEALFA_MINIFY_CONFIGURED')) {
             ini_set('pcre.backtrack_limit', '1000000');
             ini_set('pcre.recursion_limit', '1000000');
@@ -40,6 +36,7 @@ abstract class Base
      * @param string $code
      * @param mixed $regexNum
      * @param callable|null $callback
+     * @psalm-param callable(array<array-key, string>): string $callback
      *
      * @return string
      * @throws Exception

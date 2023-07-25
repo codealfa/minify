@@ -52,21 +52,35 @@ class Js extends Base
 {
     use \CodeAlfa\RegexTokenizer\Js;
 
-    public string $_js;
-    protected $_prepareOnly;
+    public string $js;
+    protected bool $prepareOnly = false;
 
 
+    /**
+     * @param string $js
+     * @param array $options
+     * @psalm-param array{prepareOnly?: bool} $options
+     * @return string
+     */
     public static function optimize(string $js, array $options = []): string
     {
-        $options['js'] = $js;
+        $prepareOnly = $options['prepareOnly'] ?? false;
 
-        $oMinifyJs = new Js($options);
+        $oMinifyJs = new Js($js, $prepareOnly);
 
         try {
             return $oMinifyJs->_optimize();
         } catch (Exception $e) {
-            return $oMinifyJs->_js;
+            return $oMinifyJs->js;
         }
+    }
+
+    protected function __construct(string $js, bool $prepareOnly)
+    {
+        $this->js = $js;
+        $this->prepareOnly = $prepareOnly;
+
+        parent::__construct();
     }
 
     /**
@@ -120,46 +134,46 @@ class Js extends Base
         $rx = "#(?>[$ws ]*+(?(?=[^'\"/`]*+(?<=[$ws ])/)[^'\"/`$ws ]*+(?(?=['\"/`])(?>$s1|$s2|$s3|$b|$c|$x|/)?)"
             . "|[^'\"/`]*+(?>$s1|$s2|$s3|$b|$c|$x|/)?))*?\K"
             . "(?>(?=[$ws ]++/)(?:(?<=$x1|$x2)(?>[$ws ]++($x3))|(?<=$x4)(?>[$ws ]++($x3))(?=\.(?>$x5)))|$)#siS";
-        $this->_js = $this->_replace($rx, '$1$2', $this->_js, 'js1');
+        $this->js = $this->_replace($rx, '$1$2', $this->js, 'js1');
 
         //remove HTML comments
         //language=RegExp
         $r1 = "(?>[<\]\-]?[^'\"`<\]\-/]*+(?>$s1|$s2|$s3|$b|$c|$x|/)?)";
         $rx = "#{$r1}*?\K(?>{$h}|$)#si";
-        $this->_js = $this->_replace($rx, '', $this->_js, 'js1B');
+        $this->js = $this->_replace($rx, '', $this->js, 'js1B');
 
-        if (isset($this->_prepareOnly) && $this->_prepareOnly == true) {
-            return $this->_js;
+        if ($this->prepareOnly == true) {
+            return $this->js;
         }
 
         //replace line comments with line feed
         $rx = "#(?>[^'\"/`]*+(?>{$s1}|{$s2}|{$s3}|{$x}|{$b}|/(?![*/]))?)*?\K(?>{$c}|$)#si";
-        $this->_js = $this->_replace($rx, "\n", $this->_js, 'js2');
+        $this->js = $this->_replace($rx, "\n", $this->js, 'js2');
 
         //replace block comments with single space
         $rx = "#(?>[^'\"/`]*+(?>{$s1}|{$s2}|{$s3}|{$x}|/(?![*/]))?)*?\K(?>{$b}|$)#si";
-        $this->_js = $this->_replace($rx, ' ', $this->_js, 'js3');
+        $this->js = $this->_replace($rx, ' ', $this->js, 'js3');
 
         //convert carriage returns to line feeds
         $rx = "#(?>[^'\"`/\\r]*+(?>$s1|$s2|$s3|$x|/)?)*?\K(?>\\r\\n?|$)#si";
-        $this->_js = $this->_replace($rx, "\n", $this->_js, 'js4');
+        $this->js = $this->_replace($rx, "\n", $this->js, 'js4');
 
         //convert all other control characters to space
         $rx = "#(?>[^'\"`/$ws]*+(?>$s1|$s2|$s3|$x|/)?)*?\K(?>[$ws]++|$)#si";
-        $this->_js = $this->_replace($rx, ' ', $this->_js, 'js5');
+        $this->js = $this->_replace($rx, ' ', $this->js, 'js5');
 
         //replace runs of whitespace with single space or linefeed
         $rx = "#(?>[^'\"`/\\n ]*+(?>{$s1}|{$s2}|{$s3}|{$x}|[ \\n](?![ \\n])|/)?)*?\K(?:[ ]++(?=\\n)|\\n\K\s++|[ ]\K[ ]++|$)#si";
-        $this->_js = $this->_replace($rx, '', $this->_js, 'js6');
+        $this->js = $this->_replace($rx, '', $this->js, 'js6');
 
         //if regex literal ends line (without modifiers) insert semicolon
         $rx = "#(?>[/]?[^'\"`/]*+(?>$s1|$s2|$s3|$x(?!\\n))?)*?(?:$x\K\\n(?![!\#%&`*./,:;<=>?@\^|~}\])\"'])|\K$)#si";
-        $this->_js = $this->_replace($rx, ';', $this->_js, 'js7');
+        $this->js = $this->_replace($rx, ';', $this->js, 'js7');
 
         //clean up
         //                $rx = '#.+\K;$#s';
         //                $this->_js = $this->_replace($rx, '', $this->_js, '8');
-        $this->_js = substr($this->_js, 0, -1);
+        $this->js = substr($this->js, 0, -1);
 
         //regex for removing spaces
         //remove space except when a space is preceded and followed by a non-ASCII character or by an ASCII letter or digit,
@@ -185,10 +199,10 @@ class Js extends Base
 
         //remove unnecessary linefeeds and spaces
         $rx = "#(?>[^'\"`/\\n ]*+(?>$s1|$s2|$s3|$x|/|$k1|$k2)?)*?\K(?>$sp|$ln|$)#si";
-        $this->_js = $this->_replace($rx, '', $this->_js, 'js9');
+        $this->js = $this->_replace($rx, '', $this->js, 'js9');
 
-        $this->_js = trim($this->_js);
+        $this->js = trim($this->js);
 
-        return $this->_js;
+        return $this->js;
     }
 }

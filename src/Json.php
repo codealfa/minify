@@ -17,27 +17,30 @@ class Json extends Base
 {
     use \CodeAlfa\RegexTokenizer\Js;
 
-    public $_json;
+    public string $json;
 
     /**
      * @param   string  $json
-     * @param   array   $options
      *
      * @return string
      */
-    public static function optimize(string $json, array $options = []): string
+    public static function optimize(string $json): string
     {
-        $options['json'] = $json;
-
-        $obj = new Json($options);
+        $obj = new Json($json);
 
         try {
             return $obj->_optimize();
         } catch (Exception $e) {
-            return $obj->_json;
+            return $obj->json;
         }
     }
 
+    protected function __construct(string $json)
+    {
+        $this->json = $json;
+
+        parent::__construct();
+    }
     /**
      *
      * @return string
@@ -63,12 +66,12 @@ class Json extends Base
 
         //remove all comments
         $rx          = "#(?>[^/\"'<]*+(?:$s1|$s2)?)*?\K(?>{$b}|{$c}|{$h}|$)#si";
-        $this->_json = $this->_replace($rx, '', $this->_json, '1');
+        $this->json = $this->_replace($rx, '', $this->json, '1');
 
         //remove whitespaces around :,{}
         $rx          = "#(?>[^\"'\s]*+(?:{$s1}|{$s2})?)*?\K(?>\s++(?=[:,{}\[\]])|(?<=[:,{}\[\]])\s++|$)#s";
-        $this->_json = $this->_replace($rx, '', $this->_json, '2');
+        $this->json = $this->_replace($rx, '', $this->json, '2');
 
-        return $this->_json;
+        return $this->json;
     }
 }
