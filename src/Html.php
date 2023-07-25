@@ -29,9 +29,11 @@ class Html extends Base
      * @param $content
      * @param $type
      *
-     * @return  string
+     * @return string
+     *
+     * @psalm-param 'css'|'js' $type
      */
-    public static function cleanScript($content, $type)
+    public static function cleanScript(string $content, string $type)
     {
         $s1 = self::doubleQuoteStringToken();
         $s2 = self::singleQuoteStringToken();
