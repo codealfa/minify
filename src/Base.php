@@ -13,6 +13,8 @@ namespace CodeAlfa\Minify;
 
 use Exception;
 
+use function is_string;
+
 abstract class Base
 {
     use \CodeAlfa\RegexTokenizer\Base;
@@ -36,8 +38,6 @@ abstract class Base
      * @param string $code
      * @param mixed $regexNum
      * @param callable|null $callback
-     * @psalm-param callable(array<array-key, string>): string $callback
-     *
      * @return string
      * @throws Exception
      */
