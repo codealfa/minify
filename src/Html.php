@@ -240,7 +240,6 @@ class Html extends Base
         $type = stripos($openTag, 'script') == 1 ? (stripos($openTag, 'json') !== false ? 'json' : 'js') : 'css';
 
         if (is_callable($this->options[$type . 'Minifier'])) {
-
             // minify
             /** @psalm-suppress PossiblyNullArgument $content */
             $content = $this->_callMinifier($this->options[$type . 'Minifier'], $content);
