@@ -13,72 +13,75 @@ class JsTest extends TestCase
     public function getOptimizeJsData(): array
     {
         return [
-                [
-                        'name' => 't3-assets'
-                ],
-                [
-                        'name' => 'angular'
-                ],
-                [
-                        'name' => 'beta.platinumtrans.net'
-                ],
-                [
-                        'name' => 'bootstrap'
-                ],
-                [
-                        'name' => 'com_community.toolkit'
-                ],
-                [
-                        'name' => 'csslint'
-                ],
-                [
-                        'name' => 'dojo'
-                ],
-                [
-                        'name' => 'easysocial'
-                ],
-                [
-                        'name' => 'ext'
-                ],
-                [
-                        'name' => 'freshchat-widget'
-                ],
-                [
-                        'name' => 'jomres.datatables'
-                ],
-                [
-                        'name' => 'jquery'
-                ],
-                [
-                        'name' => 'jquery.prettyPhoto'
-                ],
-                [
-                        'name' => 'kunena'
-                ],
-                [
-                        'name' => 'mootools'
-                ],
+            [
+                'name' => 't3-assets'
+            ],
+            [
+                'name' => 'angular'
+            ],
+            [
+                'name' => 'ba-collapse'
+            ],
+            [
+                'name' => 'beta.platinumtrans.net'
+            ],
+            [
+                'name' => 'bootstrap'
+            ],
+            [
+                'name' => 'com_community.toolkit'
+            ],
+            [
+                'name' => 'csslint'
+            ],
+            [
+                'name' => 'dojo'
+            ],
+            [
+                'name' => 'easysocial'
+            ],
+            [
+                'name' => 'ext'
+            ],
+            [
+                'name' => 'freshchat-widget'
+            ],
+            [
+                'name' => 'jomres.datatables'
+            ],
+            [
+                'name' => 'jquery'
+            ],
+            [
+                'name' => 'jquery.prettyPhoto'
+            ],
+            [
+                'name' => 'kunena'
+            ],
+            [
+                'name' => 'mootools'
+            ],
             /*[
                     'name' => 'mootools-more'
             ],*/
-                [
-                        'name' => 'php'
-                ],
-                [
-                        'name' => 'prototype'
-                ],
-                [
-                        'name' => 'script'
-                ],
-                [
-                        'name' => 'twitter-widgets'
-                ],
-                [
-                        'name' => 'uize'
-                ],
-                [
-                        'name' => 'yui'
-                ]
+            [
+                'name' => 'php'
+            ],
+            [
+                'name' => 'prototype'
+            ],
+            [
+                'name' => 'script'
+            ],
+            [
+                'name' => 'twitter-widgets'
+            ],
+            [
+                'name' => 'uize'
+            ],
+            [
+                'name' => 'yui'
+            ]
         ];
     }
 
@@ -87,7 +90,7 @@ class JsTest extends TestCase
      */
     public function testOptimize($name)
     {
-        $js       = $this->getJs($name);
+        $js = $this->getJs($name);
         $expected = $this->getJsMin($name);
 
         $actual = Js::Optimize($js);
