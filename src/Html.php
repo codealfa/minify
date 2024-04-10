@@ -109,7 +109,7 @@ class Html extends Base
         $x = self::htmlCommentToken();
         $s1 = self::doubleQuoteStringToken();
         $s2 = self::singleQuoteStringToken();
-        $a = self::htmlAttributeWithCaptureValueToken();
+        $a = self::htmlAttributeToken();
 
         //Regex for escape elements
         $pr = self::htmlElementToken('pre');
