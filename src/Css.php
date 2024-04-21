@@ -56,7 +56,7 @@ class Css extends Base
 
         $es = $s1 . '|' . $s2;
         $s  = '(?<!\\\\)(?:' . $es . ')|[\'"]';
-        $u  = self::cssUrlWithCaptureValueToken();
+        $u  = self::cssUrlToken();
         $e  = '(?<!\\\\)(?:' . $es . '|' . $u . ')|[\'"(]';
 
         $b = self::blockCommentToken();
