@@ -176,29 +176,30 @@ class Js extends Base
         $this->js = substr($this->js, 0, -1);
 
         //regex for removing spaces
-        //remove space except when a space is preceded and followed by a non-ASCII character or by an ASCII letter or digit,
-        //or by one of these characters \ $ _  ...ie., all ASCII characters except those listed.
-        $c = '["\'!\#%&`()*./,:;<=>?@\[\]\^{}|~+\-]';
-        $sp = "(?<=$c) | (?=$c)";
+        //remove space except when a space is preceded and followed by a non-ASCII character or by an ASCII letter
+        // or digit, or by one of these characters \ $ _
+        // (Or space preceding a decimal number)
 
         //Non-ASCII characters
         $na = '[^\x00-\x7F]';
 
         //spaces to keep
-        $k1 = "(?<=[\$_a-z0-9\\\\]|$na) (?=[\$_a-z0-9\\\\]|$na)|(?<=\+) (?=\+)|(?<=-) (?=-)";
+        $k1 = "(?<=[\$_a-z0-9\\\\]|$na) (?=[\$_a-z0-9\\\\]|$na)|(?<=\+) (?=\+)|(?<=-) (?=-)| (?=\.[0-9])";
 
-        //regex for removing linefeeds
-        //remove linefeeds except if it precedes a non-ASCII character or an ASCII letter or digit or one of these
-        //characters: ! \ $ _ [ ( { + - and if it follows a non-ASCII character or an ASCII letter or digit or one of these
-        //characters: \ $ _ ] ) } + - " ' ` ...ie., all ASCII characters except those listed respectively
+        //regex for removing linefeed
+        //remove linefeed except if it precedes a non-ASCII character or an ASCII letter or digit or one of these
+        //characters: ! \ $ _ [ ( { + -
+        // and if it follows a non-ASCII character or an ASCII letter or digit or one of these
+        //characters: \ $ _ ] ) } + - " ' `
         //(or one of these characters: ) } ] " ' ` followed by a string)
-        $ln = '(?<=[!\#%&*./,:;<=>?@\^|~{\[(])\n|\n(?=[\#%&*./,:;<=>?@\^|~}\])])|(?<![\)"\'`])\\n(?=[\'"`])';
 
-        //line feeds to keep
+        //linefeed to keep
         $k2 = "(?<=[\$_a-z0-9\\\\\])}+\-\"'`]|$na)\\n(?=[!\$_a-z0-9\\\\\[({+\-]|$na)|(?<=[\)}\]\"'`])\\n(?=[\"'`])";
 
-        //remove unnecessary linefeeds and spaces
-        $rx = "#(?>[^'\"`/\\n ]*+(?>$s1|$s2|$s3|$x|/|$k1|$k2)?)*?\K(?>$sp|$ln|$)#si";
+        //A very specific use case
+        $q = '(?<=`) (?:- )?(?=\$)';
+        //remove unnecessary linefeed and spaces
+        $rx = "#(?>[^'\"`/\\n ]++|$s1|$s2|$s3|$x|/|$k1|$k2|$q)*\K(?>[ \\n]|$)#si";
         $this->js = $this->_replace($rx, '', $this->js, 'js9');
 
         $this->js = trim($this->js);

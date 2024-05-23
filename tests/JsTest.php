@@ -81,6 +81,9 @@ class JsTest extends TestCase
             ],
             [
                 'name' => 'yui'
+            ],
+            [
+                'name' => 'uikit'
             ]
         ];
     }
