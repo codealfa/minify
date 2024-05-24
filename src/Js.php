@@ -178,6 +178,7 @@ class Js extends Base
         //regex for removing spaces
         //remove space except when a space is preceded and followed by a non-ASCII character or by an ASCII letter
         // or digit, or by one of these characters \ $ _
+        // (or follows a + and precedes a + or follows an - and precedes an -)
         // (Or space preceding a decimal number)
 
         //Non-ASCII characters
@@ -191,7 +192,7 @@ class Js extends Base
         //characters: ! \ $ _ [ ( { + -
         // and if it follows a non-ASCII character or an ASCII letter or digit or one of these
         //characters: \ $ _ ] ) } + - " ' `
-        //(or one of these characters: ) } ] " ' ` followed by a string)
+        //(or if it follows one of these characters: ) } ] " ' ` and precedes a string)
 
         //linefeed to keep
         $k2 = "(?<=[\$_a-z0-9\\\\\])}+\-\"'`]|$na)\\n(?=[!\$_a-z0-9\\\\\[({+\-]|$na)|(?<=[\)}\]\"'`])\\n(?=[\"'`])";
