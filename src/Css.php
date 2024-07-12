@@ -53,6 +53,7 @@ class Css extends Base
     {
         $s1 = self::doubleQuoteStringToken();
         $s2 = self::singleQuoteStringToken();
+        $esc = self::cssEscapedString();
 
         $es = $s1 . '|' . $s2;
         $s  = '(?<!\\\\)(?:' . $es . ')|[\'"]';
@@ -67,7 +68,7 @@ class Css extends Base
         $this->css = $this->_replace($rx, '', $this->css, 'css1');
 
         // remove ws around , ; : { } in CSS Declarations and media queries
-        $rx         = "#(?>(?:[{};]|^)[^{}@;]*+{|(?:(?<![,;:{}])\s++(?![,;:{}]))?[^\s{};\"'(]*+(?:$e|[{};])?)+?\K"
+        $rx         = "#(?>(?:[{};]|^)[^{}@;]*+{|(?:(?<![,;:{}])\s++(?![,;:{}]))|[^\s{};\"'(]++|$e|[{};])*?\K"
                       . "(?:\s++(?=[,;:{}])|(?<=[,;:{}])\s++|\K$)#s";
         $this->css = $this->_replace($rx, '', $this->css, 'css2');
 
