@@ -53,7 +53,6 @@ class Css extends Base
     {
         $s1 = self::doubleQuoteStringToken();
         $s2 = self::singleQuoteStringToken();
-        $esc = self::cssEscapedString();
 
         $es = $s1 . '|' . $s2;
         $s  = '(?<!\\\\)(?:' . $es . ')|[\'"]';
