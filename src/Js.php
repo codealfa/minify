@@ -8,7 +8,7 @@
  * This was written to provide a PHP tool to minify javascript but with an emphasis on speed,
  * in particular for tools that want to minify javascript on the fly such as http://www.jch-optimize.net.
  * Based on independent comparison tests, this library consistently returns the same results as JSMin.php
- * but on an average of 200 times faster.
+ * but on an average of 20 times faster.
  *
  * Permission is hereby granted to use this version of the library under the
  * same terms as jsmin.c, which has the following license:
