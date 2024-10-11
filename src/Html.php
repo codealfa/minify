@@ -131,11 +131,11 @@ class Html extends Base
 
         //Minify scripts
         //invalid scripts
-        $nsc = "<script\b(?=(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?(?:text|application)/(?:javascript|[^'\"\s>]*?json)))[^<>]*+>(?><?[^<]*+)*?</\s*+script\s*+>";
+        $nsc = "<script\b(?=(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?(?:module|(?:text|application)/(?:javascript|[^'\"\s>]*?json))))[^<>]*+>(?><?[^<]*+)*?</\s*+script\s*+>";
         //invalid styles
         $nst = "<style\b(?=(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?(?:text|(?:css|stylesheet))))[^<>]*+>(?><?[^<]*+)*?</\s*+style\s*>";
         $rx = "#(?><?[^<]*+(?:$x|$nsc|$nst)?)*?\K"
-            . "(?:(<script\b(?!(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?(?:text|application)/(?:javascript|[^'\"\s>]*?json)))[^<>]*+>)((?><?[^<]*+)*?)(</\s*+script\s*+>)|"
+            . "(?:(<script\b(?!(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?(?:module|(?:text|application)/(?:javascript|[^'\"\s>]*?json))))[^<>]*+>)((?><?[^<]*+)*?)(</\s*+script\s*+>)|"
             . "(<style\b(?!(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?text/(?:css|stylesheet)))[^<>]*+>)((?><?[^<]*+)*?)(</\s*+style\s*+>)|$)#i";
         $this->html = $this->_replace($rx, '', $this->html, 'html3', array($this, '_minifyCB'));
 
