@@ -91,6 +91,10 @@ class Js extends Base
      */
     private function _optimize(): string
     {
+        if (trim($this->js) === '') {
+            return $this->js;
+        }
+
         //regex for double-quoted strings
         $s1 = self::doubleQuoteStringToken();
 
@@ -203,8 +207,6 @@ class Js extends Base
         $rx = "#(?>[^'\"`/\\n ]++|$s1|$s2|$s3|$x|/|$k1|$k2|$q)*\K(?>[ \\n]|$)#si";
         $this->js = $this->_replace($rx, '', $this->js, 'js9');
 
-        $this->js = trim($this->js);
-
-        return $this->js;
+        return trim($this->js);
     }
 }
