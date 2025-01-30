@@ -65,8 +65,8 @@ class Json extends Base
         $h = self::jsHtmlCommentToken();
 
         //remove all comments
-        $rx          = "#(?>[^/\"'<]*+(?:$s1|$s2)?)*?\K(?>{$b}|{$c}|{$h}|$)#si";
-        $this->json = $this->_replace($rx, '', $this->json, '1');
+        /*$rx          = "#(?>[^/\"'<]++$s1|$s2)?)*?\K(?>{$b}|{$c}|{$h}|$)#si";
+        $this->json = $this->_replace($rx, '', $this->json, '1');*/
 
         //remove whitespaces around :,{}
         $rx          = "#(?>[^\"'\s]*+(?:{$s1}|{$s2})?)*?\K(?>\s++(?=[:,{}\[\]])|(?<=[:,{}\[\]])\s++|$)#s";
