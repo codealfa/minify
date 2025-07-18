@@ -42,11 +42,13 @@ class Html extends Base
         $c = self::htmlCommentToken();
 
         if ($type == 'css') {
+            // @lang RegExp
+            $regex = "(?>[^'\"</]++|$s1|$s2|$b|$l|['\"</])*?\K(?:$c|$)";
             return preg_replace(
-                "#(?>[<\]\-]?[^'\"<\]\-/]*+(?>$s1|$s2|$b|$l|/)?)*?\K(?:$c|$)#i",
+                "#{$regex}#i",
                 '',
                 $content
-            );
+            ) ?? $content;
         } else {
             return Js::optimize($content, array('prepareOnly' => true));
         }
