@@ -85,8 +85,8 @@ class Css extends Base
 
         // minimize hex colors
         //language=RegExp
-        $rx = "(?>[^\#\"'u]++|$s1|$s2|$u|[\#\"'u])*?\#\K"
-            . "(?:([a-f\d])\g{1}([a-f\d])\g{2}([a-f\d])\g{3}\b|$)";
+        $rx = "(?>[^\#\"'u]++|$s1|$s2|$u|[\#\"'u])*?"
+            . "(?:\#\K([a-f\d])\g{1}([a-f\d])\g{2}([a-f\d])\g{3}\b|\K$)";
         $this->css = $this->_replace("#$rx#si", '$1$2$3', $this->css, 'css6');
 
         // reduce remaining ws to single space
