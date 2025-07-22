@@ -80,8 +80,8 @@ class Css extends Base
 
         // remove ws inside urls
         //language=RegExp
-        $rx = "(?>[('\"]++|$s1|$s2|\()*?(?:(?<=\burl)\(\K\s++|\G(?:$s1|$s2|\S++)\K\s++(?=\))|$\K)";
-        $this->css = $this->_replace("#$rx#si", '', $this->css, 'css5');
+        $rx = "(?>[^('\"]++|$s1|$s2|\()*?(?:(?<=\burl)\(\K\s*+($s1|$s2|\S++)\s*+(?=\))|\K$)";
+        $this->css = $this->_replace("#$rx#si", '$1', $this->css, 'css5');
 
         // minimize hex colors
         //language=RegExp

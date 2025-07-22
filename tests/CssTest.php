@@ -12,6 +12,7 @@ class CssTest extends TestCase
     public function getCssOptimizeData(): array
     {
         return [
+            ['message' => 'bootstrap5'],
             ['message' => 'comments'],
             ['message' => 'httpinurl'],
             ['message' => 'issue210'],
