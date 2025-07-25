@@ -112,6 +112,7 @@ class Html extends Base
         $s1 = self::doubleQuoteStringToken();
         $s2 = self::singleQuoteStringToken();
         $a = self::htmlAttributeToken();
+        $ie = self::htmlIECommentToken();
 
         //Regex for escape elements
         $pr = self::htmlElementToken('pre');
@@ -121,9 +122,9 @@ class Html extends Base
 
         if ($this->options['minifyLevel'] > 0) {
             //Remove comments (not containing IE conditional comments)
-            $rx = "#(?><?[^<]*+(?>$pr|$sc|$st|$tx|<!--\[(?><?[^<]*+)*?"
-                . "<!\s*\[(?>-?[^-]*+)*?--!?>|<!DOCTYPE[^>]++>)?)*?\K(?:$x|$)#i";
-            $this->html = $this->_replace($rx, '', $this->html, 'html1');
+            // language=RegExp
+            $rx = "(?>[^<]++|$ie|$sc|$st|$tx|<!DOCTYPE[^>]++>|<)*?\K(?:(?!$ie)$x|$)";
+            $this->html = $this->_replace("#$rx#si", '', $this->html, 'html1');
         }
 
         //Reduce runs of whitespace outside all elements to one
