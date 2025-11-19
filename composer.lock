@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8b6799f9e271c0afb5994771201993d1",
+    "content-hash": "da10c9d13cf3cbe5bb80ef9195509d30",
     "packages": [
         {
             "name": "codealfa/regextokenizer",
-            "version": "2.0",
+            "version": "dev-development",
             "source": {
                 "type": "git",
                 "url": "https://github.com/codealfa/regextokenizer.git",
-                "reference": "e34a727f3a5eae0f4fa84f84cec6ba85a6bb1b47"
+                "reference": "19a5c9f8c8dabcecea43cf06e4fea63adcf7e476"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codealfa/regextokenizer/zipball/e34a727f3a5eae0f4fa84f84cec6ba85a6bb1b47",
-                "reference": "e34a727f3a5eae0f4fa84f84cec6ba85a6bb1b47",
+                "url": "https://api.github.com/repos/codealfa/regextokenizer/zipball/19a5c9f8c8dabcecea43cf06e4fea63adcf7e476",
+                "reference": "19a5c9f8c8dabcecea43cf06e4fea63adcf7e476",
                 "shasum": ""
             },
             "require": {
@@ -49,10 +49,10 @@
             ],
             "description": "A collection of regex tokens for use with Regex Parsing.",
             "support": {
-                "source": "https://github.com/codealfa/regextokenizer/tree/2.0",
+                "source": "https://github.com/codealfa/regextokenizer/tree/development",
                 "issues": "https://github.com/codealfa/regextokenizer/issues"
             },
-            "time": "2024-09-30T20:24:57+00:00"
+            "time": "2025-11-19T14:41:19+00:00"
         },
         {
             "name": "psr/log",
@@ -107,13 +107,15 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "codealfa/regextokenizer": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.0"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }

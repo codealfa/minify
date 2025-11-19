@@ -1,7 +1,7 @@
 {
   "name": "codealfa/minify",
   "description": "An extremely fast PHP based minification library for Javascript, CSS, Html and Json scripts using Regex Parsing",
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "license": "GPL-3.0-or-later",
   "authors": [
     {
@@ -11,7 +11,7 @@
   ],
   "require": {
     "php": ">=7.0",
-    "codealfa/regextokenizer": "^2.0"
+    "codealfa/regextokenizer": "dev-development"
   },
   "autoload": {
     "psr-4": {
