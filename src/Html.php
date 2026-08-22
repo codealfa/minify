@@ -42,11 +42,13 @@ class Html extends Base
         $c = self::htmlCommentToken();
 
         if ($type == 'css') {
+            // @lang RegExp
+            $regex = "(?>[^'\"</]++|$s1|$s2|$b|$l|['\"</])*?\K(?:$c|$)";
             return preg_replace(
-                "#(?>[<\]\-]?[^'\"<\]\-/]*+(?>$s1|$s2|$b|$l|/)?)*?\K(?:$c|$)#i",
+                "#{$regex}#i",
                 '',
                 $content
-            );
+            ) ?? $content;
         } else {
             return Js::optimize($content, array('prepareOnly' => true));
         }
@@ -110,6 +112,7 @@ class Html extends Base
         $s1 = self::doubleQuoteStringToken();
         $s2 = self::singleQuoteStringToken();
         $a = self::htmlAttributeToken();
+        $ie = self::htmlIECommentToken();
 
         //Regex for escape elements
         $pr = self::htmlElementToken('pre');
@@ -119,9 +122,9 @@ class Html extends Base
 
         if ($this->options['minifyLevel'] > 0) {
             //Remove comments (not containing IE conditional comments)
-            $rx = "#(?><?[^<]*+(?>$pr|$sc|$st|$tx|<!--\[(?><?[^<]*+)*?"
-                . "<!\s*\[(?>-?[^-]*+)*?--!?>|<!DOCTYPE[^>]++>)?)*?\K(?:$x|$)#i";
-            $this->html = $this->_replace($rx, '', $this->html, 'html1');
+            // language=RegExp
+            $rx = "(?>[^<]++|$ie|$sc|$st|$tx|<!DOCTYPE[^>]++>|<)*?\K(?:(?!$ie)$x|$)";
+            $this->html = $this->_replace("#$rx#si", '', $this->html, 'html1');
         }
 
         //Reduce runs of whitespace outside all elements to one
@@ -131,11 +134,11 @@ class Html extends Base
 
         //Minify scripts
         //invalid scripts
-        $nsc = "<script\b(?=(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?(?:text|application)/(?:javascript|[^'\"\s>]*?json)))[^<>]*+>(?><?[^<]*+)*?</\s*+script\s*+>";
+        $nsc = "<script\b(?=(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?(?:module|(?:text|application)/(?:javascript|[^'\"\s>]*?json))))[^<>]*+>(?><?[^<]*+)*?</\s*+script\s*+>";
         //invalid styles
         $nst = "<style\b(?=(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?(?:text|(?:css|stylesheet))))[^<>]*+>(?><?[^<]*+)*?</\s*+style\s*>";
         $rx = "#(?><?[^<]*+(?:$x|$nsc|$nst)?)*?\K"
-            . "(?:(<script\b(?!(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?(?:text|application)/(?:javascript|[^'\"\s>]*?json)))[^<>]*+>)((?><?[^<]*+)*?)(</\s*+script\s*+>)|"
+            . "(?:(<script\b(?!(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?(?:module|(?:text|application)/(?:javascript|[^'\"\s>]*?json))))[^<>]*+>)((?><?[^<]*+)*?)(</\s*+script\s*+>)|"
             . "(<style\b(?!(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?text/(?:css|stylesheet)))[^<>]*+>)((?><?[^<]*+)*?)(</\s*+style\s*+>)|$)#i";
         $this->html = $this->_replace($rx, '', $this->html, 'html3', array($this, '_minifyCB'));
 

@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1bc30bfca97d970109ad7f479d6326aa",
+    "content-hash": "ae28126739a7b3c63f89c7be76d3a358",
     "packages": [
         {
             "name": "codealfa/regextokenizer",
-            "version": "dev-development",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/codealfa/regextokenizer.git",
-                "reference": "19a5c9f8c8dabcecea43cf06e4fea63adcf7e476"
+                "reference": "e5d1c14f7ec97bfc0e0891886e758df6a91f9013"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codealfa/regextokenizer/zipball/19a5c9f8c8dabcecea43cf06e4fea63adcf7e476",
-                "reference": "19a5c9f8c8dabcecea43cf06e4fea63adcf7e476",
+                "url": "https://api.github.com/repos/codealfa/regextokenizer/zipball/e5d1c14f7ec97bfc0e0891886e758df6a91f9013",
+                "reference": "e5d1c14f7ec97bfc0e0891886e758df6a91f9013",
                 "shasum": ""
             },
             "require": {
@@ -49,10 +49,10 @@
             ],
             "description": "A collection of regex tokens for use with Regex Parsing.",
             "support": {
-                "source": "https://github.com/codealfa/regextokenizer/tree/development",
+                "source": "https://github.com/codealfa/regextokenizer/tree/2.1.0",
                 "issues": "https://github.com/codealfa/regextokenizer/issues"
             },
-            "time": "2025-11-19T14:41:19+00:00"
+            "time": "2026-08-22T15:45:00+00:00"
         },
         {
             "name": "psr/log",
@@ -108,14 +108,12 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "codealfa/regextokenizer": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.0"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
