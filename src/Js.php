@@ -138,7 +138,7 @@ class Js extends Base
         $rx = "#{$r1}*?\K(?>{$h}|$)#si";
         $this->js = $this->_replace($rx, '', $this->js, 'js1B');
 
-        if ($this->prepareOnly == true) {
+        if ($this->prepareOnly) {
             return $this->js;
         }
 

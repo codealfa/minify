@@ -50,7 +50,7 @@ abstract class Base
             $tm = true;
         }
 
-        if (empty($callback)) {
+        if ($callback === null) {
             $opCode = preg_replace($regex, $replacement, $code);
         } else {
             $opCode = preg_replace_callback($regex, $callback, $code);

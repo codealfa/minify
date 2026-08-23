@@ -15,7 +15,6 @@ namespace CodeAlfa\Minify;
 
 use Exception;
 
-use function call_user_func;
 use function is_callable;
 
 class Html extends Base
@@ -38,7 +37,7 @@ class Html extends Base
         $l = self::lineCommentToken();
         $c = self::htmlCommentToken();
 
-        if ($type == 'css') {
+        if ($type === 'css') {
             // @lang RegExp
             $regex = "(?>[^'\"</]++|$s1|$s2|$b|$l|['\"</])*?\K(?:$c|$)";
             return preg_replace(
@@ -75,7 +74,7 @@ class Html extends Base
             'jsonMinifier' => null
         ];
 
-        if ($options) {
+        if ($options !== null) {
             $paramOptions = array_merge($paramOptions, $options);
         }
 
@@ -197,7 +196,7 @@ class Html extends Base
 
     protected function _minifyCB(array $matches): string
     {
-        if ($matches[0] == '') {
+        if ($matches[0] === '') {
             return $matches[0];
         }
 
@@ -209,11 +208,11 @@ class Html extends Base
         $content = isset($matches[2]) && $matches[2] != '' ? $matches[2] : (isset($matches[5]) && $matches[5] != '' ? $matches[5] : '');
         $closeTag = isset($matches[3]) && $matches[3] != '' ? $matches[3] : (isset($matches[6]) && $matches[6] != '' ? $matches[6] : '');
 
-        if (trim($content) == '') {
+        if (trim($content) === '') {
             return $matches[0];
         }
 
-        $type = stripos($openTag, 'script') == 1 ? (stripos($openTag, 'json') !== false ? 'json' : 'js') : 'css';
+        $type = stripos($openTag, 'script') === 1 ? (stripos($openTag, 'json') !== false ? 'json' : 'js') : 'css';
 
         if (is_callable($this->options[$type . 'Minifier'])) {
             // minify
@@ -231,11 +230,11 @@ class Html extends Base
 
     protected function _callMinifier(callable $minifier, string $content): string
     {
-        return (string) call_user_func($minifier, $content);
+        return (string) $minifier($content);
     }
 
     protected function _needsCdata(string $str, string $type): bool
     {
-        return ($this->options['isXhtml'] && $type == 'js' && (bool) preg_match('#(?:[<&]|\-\-|\]\]>)#', $str));
+        return ($this->options['isXhtml'] && $type === 'js' && (bool) preg_match('#(?:[<&]|\-\-|\]\]>)#', $str));
     }
 }
