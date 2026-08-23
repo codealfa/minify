@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @package   codealfa/minify
  * @author    Samuel Marshall <sdmarshall73@gmail.com>
@@ -19,13 +21,7 @@ class Css extends Base
 
     public string $css;
 
-    /**
-     * Minify a CSS string
-     *
-     * @param   string  $css
-     *
-     * @return string
-     */
+    /** Minify a CSS string. */
     public static function optimize(string $css): string
     {
         $obj = new Css($css);
@@ -43,12 +39,7 @@ class Css extends Base
 
         parent::__construct();
     }
-    /**
-     * Minify a CSS string
-     *
-     * @return string
-     * @throws Exception
-     */
+    /** @throws Exception */
     private function _optimize(): string
     {
         $s1 = self::doubleQuoteStringToken();

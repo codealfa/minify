@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This is a regular expressions based implementation of the JSMin algorithim in PHP as described
  * on Douglas Crockford's page at http://www.crockford.com/javascript/jsmin.html and also
@@ -56,12 +58,7 @@ class Js extends Base
     protected bool $prepareOnly = false;
 
 
-    /**
-     * @param string $js
-     * @param array $options
-     * @psalm-param array{prepareOnly?: bool} $options
-     * @return string
-     */
+    /** Minify a JavaScript string. */
     public static function optimize(string $js, array $options = []): string
     {
         $prepareOnly = $options['prepareOnly'] ?? false;
@@ -83,12 +80,7 @@ class Js extends Base
         parent::__construct();
     }
 
-    /**
-     *
-     * @return string
-     *
-     * @throws Exception
-     */
+    /** @throws Exception */
     private function _optimize(): string
     {
         if (trim($this->js) === '') {

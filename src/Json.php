@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @package   codealfa/minify
  * @author    Samuel Marshall <sdmarshall73@gmail.com>
@@ -19,11 +21,7 @@ class Json extends Base
 
     public string $json;
 
-    /**
-     * @param   string  $json
-     *
-     * @return string
-     */
+    /** Minify a JSON string. */
     public static function optimize(string $json): string
     {
         $obj = new Json($json);
@@ -41,12 +39,7 @@ class Json extends Base
 
         parent::__construct();
     }
-    /**
-     *
-     * @return string
-     *
-     * @throws Exception
-     */
+    /** @throws Exception */
     private function _optimize(): string
     {
         //regex for double-quoted strings

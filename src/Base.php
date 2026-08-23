@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @package   codealfa/minify
  * @author    Samuel Marshall <sdmarshall73@gmail.com>
@@ -12,8 +14,6 @@
 namespace CodeAlfa\Minify;
 
 use Exception;
-
-use function is_string;
 
 abstract class Base
 {
@@ -31,17 +31,17 @@ abstract class Base
     }
 
     /**
-     * @staticvar bool $tm
+     * Apply a regular expression replacement and throw on PCRE errors.
      *
-     * @param string $regex
-     * @param string $replacement
-     * @param string $code
-     * @param mixed $regexNum
-     * @param callable|null $callback
-     * @return string
      * @throws Exception
      */
-    protected function _replace(string $regex, string $replacement, string $code, $regexNum, ?callable $callback = null): string
+    protected function _replace(
+        string $regex,
+        string $replacement,
+        string $code,
+        int|string $regexNum,
+        ?callable $callback = null
+    ): string
     {
         static $tm = false;
 
@@ -51,15 +51,15 @@ abstract class Base
         }
 
         if (empty($callback)) {
-            $op_code = preg_replace($regex, $replacement, $code);
+            $opCode = preg_replace($regex, $replacement, $code);
         } else {
-            $op_code = preg_replace_callback($regex, $callback, $code);
+            $opCode = preg_replace_callback($regex, $callback, $code);
         }
 
         $this->_debug($regex, $code, $regexNum);
 
         self::throwExceptionOnPregError();
 
-        return $op_code ?? $code;
+        return $opCode ?? $code;
     }
 }

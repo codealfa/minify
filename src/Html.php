@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @package   codealfa/minify
  * @author    Samuel Marshall <sdmarshall73@gmail.com>
@@ -27,12 +29,7 @@ class Html extends Base
      */
     protected array $options;
 
-    /**
-     * @param string $content
-     * @param string $type
-     *
-     * @return string
-     */
+    /** Clean comments from an inline script or style block. */
     public static function cleanScript(string $content, string $type): string
     {
         $s1 = self::doubleQuoteStringToken();
@@ -54,16 +51,8 @@ class Html extends Base
         }
     }
 
-    /**
-     * "Minify" an HTML page
-     *
-     * @param string $html
-     * @param $options
-     * @psalm-param array{isXhtml?: bool, isHtml5?: bool, jsMinifier?: callable, jsonMinifier?: callable, cssMinifier?: callable, minifyLevel?: int}|null $options
-     *
-     * @return string
-     */
-    public static function optimize(string $html, $options = null): string
+    /** Minify an HTML page. */
+    public static function optimize(string $html, ?array $options = null): string
     {
         $min = new Html($html, $options);
 
@@ -74,12 +63,7 @@ class Html extends Base
         }
     }
 
-    /**
-     * @param string $html
-     * @param $options
-     * @psalm-param array{isXhtml?: bool, isHtml5?: bool, jsMinifier?: callable, jsonMinifier?: callable, cssMinifier?: callable, minifyLevel?: int}|null $options
-     */
-    protected function __construct(string $html, $options)
+    protected function __construct(string $html, ?array $options)
     {
         $this->html = $html;
         $paramOptions = [
@@ -100,12 +84,7 @@ class Html extends Base
         parent::__construct();
     }
 
-    /**
-     * Minify the markup given in the constructor
-     *
-     * @return string
-     * @throws Exception
-     */
+    /** @throws Exception */
     private function _optimize(): string
     {
         $x = self::htmlCommentToken();
@@ -216,28 +195,22 @@ class Html extends Base
         return trim($this->html);
     }
 
-    /**
-     *
-     * @param string[] $m
-     *
-     * @return string
-     */
-    protected function _minifyCB(array $m): string
+    protected function _minifyCB(array $matches): string
     {
-        if ($m[0] == '') {
-            return $m[0];
+        if ($matches[0] == '') {
+            return $matches[0];
         }
 
-        if (strpos($m[0], 'var google_conversion') !== false) {
-            return $m[0];
+        if (strpos($matches[0], 'var google_conversion') !== false) {
+            return $matches[0];
         }
 
-        $openTag = isset($m[1]) && $m[1] != '' ? $m[1] : (isset($m[4]) && $m[4] != '' ? $m[4] : '');
-        $content = isset($m[2]) && $m[2] != '' ? $m[2] : (isset($m[5]) && $m[5] != '' ? $m[5] : '');
-        $closeTag = isset($m[3]) && $m[3] != '' ? $m[3] : (isset($m[6]) && $m[6] != '' ? $m[6] : '');
+        $openTag = isset($matches[1]) && $matches[1] != '' ? $matches[1] : (isset($matches[4]) && $matches[4] != '' ? $matches[4] : '');
+        $content = isset($matches[2]) && $matches[2] != '' ? $matches[2] : (isset($matches[5]) && $matches[5] != '' ? $matches[5] : '');
+        $closeTag = isset($matches[3]) && $matches[3] != '' ? $matches[3] : (isset($matches[6]) && $matches[6] != '' ? $matches[6] : '');
 
         if (trim($content) == '') {
-            return $m[0];
+            return $matches[0];
         }
 
         $type = stripos($openTag, 'script') == 1 ? (stripos($openTag, 'json') !== false ? 'json' : 'js') : 'css';
@@ -252,31 +225,17 @@ class Html extends Base
                 $type
             ) ? "{$openTag}/*<![CDATA[*/{$content}/*]]>*/{$closeTag}" : "{$openTag}{$content}{$closeTag}";
         } else {
-            return $m[0];
+            return $matches[0];
         }
     }
 
-    /**
-     *
-     * @param callable $minifier
-     * @param string $content
-     *
-     * @return string
-     */
     protected function _callMinifier(callable $minifier, string $content): string
     {
         return (string) call_user_func($minifier, $content);
     }
 
-    /**
-     *
-     * @param string $str
-     * @param string $type
-     *
-     * @return bool
-     */
     protected function _needsCdata(string $str, string $type): bool
     {
-        return ($this->options['isXhtml'] && $type == 'js' && preg_match('#(?:[<&]|\-\-|\]\]>)#', $str));
+        return ($this->options['isXhtml'] && $type == 'js' && (bool) preg_match('#(?:[<&]|\-\-|\]\]>)#', $str));
     }
 }
