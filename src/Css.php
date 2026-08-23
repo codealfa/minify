@@ -27,10 +27,16 @@ class Css extends Base
         $obj = new Css($css);
 
         try {
-            return $obj->_optimize();
+            return $obj->minifyContent();
         } catch (Exception $e) {
             return $obj->css;
         }
+    }
+
+    /** Alias of optimize(). */
+    public static function minify(string $css): string
+    {
+        return self::optimize($css);
     }
 
     private function __construct(string $css)
@@ -40,7 +46,7 @@ class Css extends Base
         parent::__construct();
     }
     /** @throws Exception */
-    private function _optimize(): string
+    private function minifyContent(): string
     {
         $s1 = self::doubleQuoteStringToken();
         $s2 = self::singleQuoteStringToken();
@@ -51,39 +57,39 @@ class Css extends Base
         // Remove all comments
         // language=RegExp
         $rx = "(?>[^/\"'u]++|$s1|$s2|$u|[/\"'u])*?\K(?>{$b}|$)";
-        $this->css = $this->_replace("#$rx#si", '', $this->css, 'css1');
+        $this->css = $this->applyReplacement("#$rx#si", '', $this->css, 'css1');
 
         // remove ws around , ; : { } in CSS Declarations and media queries
         // language=RegExp
         $rx = "(?>(?<=.)[^{}\s\"'u;]++|(?:^|[{}/;])\s*+{$sel}\{|$s1|$s2|$u|[{}\s\"'u;]|^.)*?"
             . "\K(?:\s++(?=[,;:{}])|(?<=[,;:{}])\s++|$)";
-        $this->css = $this->_replace("#$rx#si", '', $this->css, 'css2');
+        $this->css = $this->applyReplacement("#$rx#si", '', $this->css, 'css2');
 
         //remove ws around , + > ~ { } in selectors
         //language=RegExp
         $rx = "(?>[^{}\s\"'u]++|\{[^{}]++\}|$s1|$s2|$u|[{}\s\"'u])*?\K(?:\s++(?=[,+>~{}])|(?<=[,+>~{};])\s++|$)";
-        $this->css = $this->_replace("#$rx#si", '', $this->css, 'css3');
+        $this->css = $this->applyReplacement("#$rx#si", '', $this->css, 'css3');
 
         //remove last ; in block
         //language=RegExp
         $rx = "(?>[^;\"'u]++|$s1|$s2|$u|[;\"'u])*?\K(?:;(?=\s*+})|$)";
-        $this->css = $this->_replace("#$rx#si", '', $this->css, 'css4');
+        $this->css = $this->applyReplacement("#$rx#si", '', $this->css, 'css4');
 
         // remove ws inside urls
         //language=RegExp
         $rx = "(?>[^('\"]++|$s1|$s2|\()*?(?:(?<=\burl)\(\K\s*+($s1|$s2|\S++)\s*+(?=\))|\K$)";
-        $this->css = $this->_replace("#$rx#si", '$1', $this->css, 'css5');
+        $this->css = $this->applyReplacement("#$rx#si", '$1', $this->css, 'css5');
 
         // minimize hex colors
         //language=RegExp
         $rx = "(?>[^\#\"'u]++|$s1|$s2|$u|[\#\"'u])*?"
             . "(?:\#\K([a-f\d])\g{1}([a-f\d])\g{2}([a-f\d])\g{3}\b|\K$)";
-        $this->css = $this->_replace("#$rx#si", '$1$2$3', $this->css, 'css6');
+        $this->css = $this->applyReplacement("#$rx#si", '$1$2$3', $this->css, 'css6');
 
         // reduce remaining ws to single space
         //language=RegExp
         $rx = "(?>[^\s'\"u]++|$s1|$s2|$u|[\s'\"u])*?\K(?:\s\s++|$)";
-        $this->css = $this->_replace("#$rx#si", ' ', $this->css, 'css7');
+        $this->css = $this->applyReplacement("#$rx#si", ' ', $this->css, 'css7');
 
 
         return trim($this->css);

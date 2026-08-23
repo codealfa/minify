@@ -35,7 +35,7 @@ abstract class Base
      *
      * @throws Exception
      */
-    protected function _replace(
+    protected function applyReplacement(
         string $regex,
         string $replacement,
         string $code,
@@ -43,11 +43,11 @@ abstract class Base
         ?callable $callback = null
     ): string
     {
-        static $tm = false;
+        static $timingStarted = false;
 
-        if ($tm === false) {
+        if ($timingStarted === false) {
             $this->_debug('', '');
-            $tm = true;
+            $timingStarted = true;
         }
 
         if ($callback === null) {

@@ -56,10 +56,16 @@ class Html extends Base
         $min = new Html($html, $options);
 
         try {
-            return $min->_optimize();
+            return $min->minifyContent();
         } catch (Exception $e) {
             return $min->html;
         }
+    }
+
+    /** Alias of optimize(). */
+    public static function minify(string $html, ?array $options = null): string
+    {
+        return self::optimize($html, $options);
     }
 
     protected function __construct(string $html, ?array $options)
@@ -84,7 +90,7 @@ class Html extends Base
     }
 
     /** @throws Exception */
-    private function _optimize(): string
+    private function minifyContent(): string
     {
         $x = self::htmlCommentToken();
         $s1 = self::doubleQuoteStringToken();
@@ -102,13 +108,13 @@ class Html extends Base
             //Remove comments (not containing IE conditional comments)
             // language=RegExp
             $rx = "(?>[^<]++|$ie|$sc|$st|$tx|<!DOCTYPE[^>]++>|<)*?\K(?:(?!$ie)$x|$)";
-            $this->html = $this->_replace("#$rx#si", '', $this->html, 'html1');
+            $this->html = $this->applyReplacement("#$rx#si", '', $this->html, 'html1');
         }
 
         //Reduce runs of whitespace outside all elements to one
         $rx = "#(?>[^<]*+(?:$pr|$sc|$st|$tx|$x|<(?>[^>=]*+(?:=\s*+(?:$s1|$s2|['\"])?|(?=>)))*?>)?)*?\K"
             . '(?:[\t\f ]++(?=[\r\n]\s*+<)|(?>\r?\n|\r)\K\s++(?=<)|[\t\f]++(?=[ ]\s*+<)|[\t\f]\K\s*+(?=<)|[ ]\K\s*+(?=<)|$)#i';
-        $this->html = $this->_replace($rx, '', $this->html, 'html2');
+        $this->html = $this->applyReplacement($rx, '', $this->html, 'html2');
 
         //Minify scripts
         //invalid scripts
@@ -118,7 +124,7 @@ class Html extends Base
         $rx = "#(?><?[^<]*+(?:$x|$nsc|$nst)?)*?\K"
             . "(?:(<script\b(?!(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?(?:module|(?:text|application)/(?:javascript|[^'\"\s>]*?json))))[^<>]*+>)((?><?[^<]*+)*?)(</\s*+script\s*+>)|"
             . "(<style\b(?!(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?text/(?:css|stylesheet)))[^<>]*+>)((?><?[^<]*+)*?)(</\s*+style\s*+>)|$)#i";
-        $this->html = $this->_replace($rx, '', $this->html, 'html3', array($this, '_minifyCB'));
+        $this->html = $this->applyReplacement($rx, '', $this->html, 'html3', [$this, 'minifyCallback']);
 
         if ($this->options['minifyLevel'] < 1) {
             return trim($this->html);
@@ -127,7 +133,7 @@ class Html extends Base
         //Replace line feed with space (legacy)
         $rx = "#(?>[^<]*+(?:$pr|$sc|$st|$tx|$x|<(?>[^>=]*+(?:=\s*+(?:$s1|$s2|['\"])?|(?=>)))*?>)?)*?\K"
             . '(?:[\r\n\t\f]++(?=<)|$)#i';
-        $this->html = $this->_replace($rx, ' ', $this->html, 'html4');
+        $this->html = $this->applyReplacement($rx, ' ', $this->html, 'html4');
 
         // remove ws around block elements preserving space around inline elements
         //block/undisplayed elements
@@ -149,19 +155,19 @@ class Html extends Base
 
         $rx = "#(?>\s*+(?:$pr|$sc|$st|$tx|$x|<(?:(?>$i)\b[^>]*+>|(?:/(?>$i)\b>|(?>$i2)\b[^>]*+>)\s*+)|<[^>]*+>)|[^<]++)*?\K"
             . "(?:\s++(?=<(?>$b|$b2)\b)|(?:</(?>$b)\b>|<(?>$b2)\b[^>]*+>)\K\s++(?!<(?>$i|$i2)\b)|$)#i";
-        $this->html = $this->_replace($rx, '', $this->html, 'html5');
+        $this->html = $this->applyReplacement($rx, '', $this->html, 'html5');
 
         //Replace runs of whitespace inside elements with single space escaping pre, textarea, scripts and style elements
         //elements to escape
         $e = 'pre|script|style|textarea';
 
         $rx = "#(?>[^<]*+(?:$pr|$sc|$st|$tx|$x|<[^>]++>[^<]*+))*?(?:(?:<(?!$e|!)[^>]*+>)?(?>\s?[^\s<]*+)*?\K\s{2,}|\K$)#i";
-        $this->html = $this->_replace($rx, ' ', $this->html, 'html6');
+        $this->html = $this->applyReplacement($rx, ' ', $this->html, 'html6');
 
         //Remove additional ws around attributes
         $rx = "#(?>\s?(?>[^<>]*+(?:<!(?!DOCTYPE)(?>>?[^>]*+)*?>[^<>]*+)?<|(?=[^<>]++>)[^\s>'\"]++(?>$s1|$s2)?|[^<]*+))*?\K"
             . "(?>\s\s++|$)#i";
-        $this->html = $this->_replace($rx, ' ', $this->html, 'html7');
+        $this->html = $this->applyReplacement($rx, ' ', $this->html, 'html7');
 
         if ($this->options['minifyLevel'] < 2) {
             return trim($this->html);
@@ -171,7 +177,7 @@ class Html extends Base
         $rx = "#(?:(?=[^<>]++>)|(?><?[^<]*+(?>$x|$nsc|$nst|<(?!(?:script|style|link)|/html>))?)*?"
             . "<(?:(?:script|style|link)|/html>))(?>[ ]?[^ >]*+)*?\K"
             . '(?: (?:type|language)=["\']?(?:(?:text|application)/(?:javascript|css)|javascript)["\']?|[^<]*+\K$)#i';
-        $this->html = $this->_replace($rx, '', $this->html, 'html8');
+        $this->html = $this->applyReplacement($rx, '', $this->html, 'html8');
 
         $j = '<input type="hidden" name="[0-9a-f]{32}" value="1" />';
 
@@ -183,18 +189,18 @@ class Html extends Base
             $rx = "#(?:(?=[^>]*+>)|<[a-z0-9]++ )"
                 . "(?>[=]?[^=><]*+(?:=(?:$ns1|$ns2)|>(?>[^<]*+(?:$j|$x|$nsc|$nst|<(?![a-z0-9]++ ))?)*?(?:<[a-z0-9]++ |$))?)*?"
                 . "(?:=\K([\"'])([^\"'`=<>\s]++)\g{1}[ ]?|\K$)#i";
-            $this->html = $this->_replace($rx, '$2 ', $this->html, 'html9');
+            $this->html = $this->applyReplacement($rx, '$2 ', $this->html, 'html9');
         }
 
         //Remove last whitespace in open tag
         $rx = "#(?>[^<]*+(?:$j|$x|$nsc|$nst|<(?![a-z0-9]++))?)*?(?:<[a-z0-9]++(?>\s*+[^\s>]++)*?\K"
             . "(?:\s*+(?=>)|(?<=[\"'])\s++(?=/>))|$\K)#i";
-        $this->html = $this->_replace($rx, '', $this->html, 'html10');
+        $this->html = $this->applyReplacement($rx, '', $this->html, 'html10');
 
         return trim($this->html);
     }
 
-    protected function _minifyCB(array $matches): string
+    protected function minifyCallback(array $matches): string
     {
         if ($matches[0] === '') {
             return $matches[0];
@@ -217,9 +223,9 @@ class Html extends Base
         if (is_callable($this->options[$type . 'Minifier'])) {
             // minify
             /** @psalm-suppress PossiblyNullArgument $content */
-            $content = $this->_callMinifier($this->options[$type . 'Minifier'], $content);
+            $content = $this->callMinifier($this->options[$type . 'Minifier'], $content);
 
-            return $this->_needsCdata(
+            return $this->needsCdata(
                 $content,
                 $type
             ) ? "{$openTag}/*<![CDATA[*/{$content}/*]]>*/{$closeTag}" : "{$openTag}{$content}{$closeTag}";
@@ -228,12 +234,12 @@ class Html extends Base
         }
     }
 
-    protected function _callMinifier(callable $minifier, string $content): string
+    protected function callMinifier(callable $minifier, string $content): string
     {
         return (string) $minifier($content);
     }
 
-    protected function _needsCdata(string $str, string $type): bool
+    protected function needsCdata(string $str, string $type): bool
     {
         return ($this->options['isXhtml'] && $type === 'js' && (bool) preg_match('#(?:[<&]|\-\-|\]\]>)#', $str));
     }
