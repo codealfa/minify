@@ -3,14 +3,12 @@
 namespace CodeAlfa\Minify\Tests;
 
 use CodeAlfa\Minify\Html;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- */
 class HtmlTest extends TestCase
 {
-    public function getOptimizeHtmlData(): array
+    public static function getOptimizeHtmlData(): array
     {
         return [
                 [
@@ -68,9 +66,7 @@ class HtmlTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getOptimizeHtmlData
-     */
+    #[DataProvider('getOptimizeHtmlData')]
     public function testOptimize($file, $expected, $options, $message)
     {
         $html     = $this->getHtml($file);

@@ -3,14 +3,12 @@
 namespace CodeAlfa\Minify\Tests;
 
 use CodeAlfa\Minify\Js;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- */
 class JsTest extends TestCase
 {
-    public function getOptimizeJsData(): array
+    public static function getOptimizeJsData(): array
     {
         return [
             [
@@ -88,9 +86,7 @@ class JsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getOptimizeJsData
-     */
+    #[DataProvider('getOptimizeJsData')]
     public function testOptimize($name)
     {
         $js = $this->getJs($name);

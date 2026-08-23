@@ -3,37 +3,34 @@
 namespace CodeAlfa\Minify\Tests;
 
 use CodeAlfa\Minify\Css;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- */
 class CssTest extends TestCase
 {
-    public function getCssOptimizeData(): array
+    public static function getCssOptimizeData(): array
     {
         return [
-            ['message' => 'bootstrap5'],
-            ['message' => 'comments'],
-            ['message' => 'httpinurl'],
-            ['message' => 'issue210'],
-            ['message' => 'issue62'],
-            ['message' => 'paths_prepend'],
-            ['message' => 'selectors'],
-            ['message' => 'styles'],
-            ['message' => 'subsilver'],
-            ['message' => 'template'],
-            ['message' => 'test'],
-            ['message' => 'test2'],
-            ['message' => 'unusual_strings'],
-            ['message' => 'vladmirated'],
-            ['message' => 'custom'],
+            ['name' => 'bootstrap5'],
+            ['name' => 'comments'],
+            ['name' => 'httpinurl'],
+            ['name' => 'issue210'],
+            ['name' => 'issue62'],
+            ['name' => 'paths_prepend'],
+            ['name' => 'selectors'],
+            ['name' => 'styles'],
+            ['name' => 'subsilver'],
+            ['name' => 'template'],
+            ['name' => 'test'],
+            ['name' => 'test2'],
+            ['name' => 'unusual_strings'],
+            ['name' => 'vladmirated'],
+            ['name' => 'custom'],
 
         ];
     }
 
-    /**
-     * @dataProvider getCssOptimizeData
-     */
+    #[DataProvider('getCssOptimizeData')]
     public function testOptimize($name)
     {
         $css = $this->getCss($name);
