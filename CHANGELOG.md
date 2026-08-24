@@ -2,6 +2,27 @@
 
 All notable changes to this project are documented here.
 
+## [3.0.0] - 2026-08-24
+
+### Added and improved
+
+- Added typed `HtmlOptions` and `JsOptions` value objects for minifier configuration.
+- Added `minify()` aliases for the existing `optimize()` methods.
+- Added focused regression coverage for options validation and minifier aliases.
+- Modernized the PHPUnit configuration and upgraded PHPUnit to 11.5.
+
+### Changed
+
+- Requires PHP 8.2 or newer.
+- Applied strict typing and PSR-1 naming to the minifier implementation.
+- Replaced the development dependency on `codealfa/regextokenizer` with the stable `^3.0` dependency.
+- Modernized profiler initialization through `regextokenizer` 3.0.
+- Reduced docblocks where native type declarations now provide the same information.
+
+### Upgrade notes
+
+This is a breaking release. HTML and JavaScript options are now represented by typed options objects. Use `HtmlOptions::fromArray()` or `JsOptions::fromArray()` as a migration aid for existing option arrays. Applications should also test representative CSS, HTML, JavaScript, and JSON input because minification behavior and internal names have changed.
+
 ## [2.2.0] - 2026-08-22
 
 ### Added and improved
@@ -27,3 +48,4 @@ This release contains behavior changes in the minification algorithms. Applicati
 
 [2.2.0]: https://github.com/codealfa/minify/releases/tag/2.2.0
 [2.1.0]: https://github.com/codealfa/minify/releases/tag/2.1.0
+[3.0.0]: https://github.com/codealfa/minify/releases/tag/3.0.0
