@@ -4,15 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3e7d82a820403c26bd12f79ed25c2f2",
+    "content-hash": "2fe06bcdb42a6fc3060be6e45f76e8c2",
     "packages": [
         {
             "name": "codealfa/regextokenizer",
-            "version": "dev-development",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codealfa/regextokenizer.git",
+                "reference": "9b6fe7618257c074ff1c7511342f29cef88674ed"
+            },
             "dist": {
-                "type": "path",
-                "url": "../regextokenizer",
-                "reference": "319460a65c6e00c15c35014bee5ab2de3ce74275"
+                "type": "zip",
+                "url": "https://api.github.com/repos/codealfa/regextokenizer/zipball/9b6fe7618257c074ff1c7511342f29cef88674ed",
+                "reference": "9b6fe7618257c074ff1c7511342f29cef88674ed",
+                "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
@@ -32,11 +38,7 @@
                     "CodeAlfa\\RegexTokenizer\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "CodeAlfa\\RegexTokenizer\\Tests\\": "tests"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0-or-later"
             ],
@@ -47,10 +49,11 @@
                 }
             ],
             "description": "A collection of regex tokens for use with Regex Parsing.",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "support": {
+                "issues": "https://github.com/codealfa/regextokenizer/issues",
+                "source": "https://github.com/codealfa/regextokenizer/tree/3.0.0"
+            },
+            "time": "2026-08-24T19:14:32+00:00"
         },
         {
             "name": "psr/log",
@@ -1871,9 +1874,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "codealfa/regextokenizer": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
