@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * @package   codealfa/minify
  * @author    Samuel Marshall <sdmarshall73@gmail.com>
- * @copyright Copyright (c) 2020 Samuel Marshall
+ * @copyright Copyright (c) 2026 Samuel Marshall
  * @license   GNU/GPLv3, or later. See LICENSE file
  *
  * If LICENSE file missing, see <http://www.gnu.org/licenses/>.

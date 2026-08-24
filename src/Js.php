@@ -3,17 +3,14 @@
 declare(strict_types=1);
 
 /**
- * This is a regular expressions based implementation of the JSMin algorithim in PHP as described
- * on Douglas Crockford's page at http://www.crockford.com/javascript/jsmin.html and also
- * guided by the PHP port written by  Ryan Grove <ryan@wonko.com>
+ * This is a regular-expression-based implementation of JavaScript minification in PHP.
+ * It is based on JSMin by Douglas Crockford and was also informed by the PHP port
+ * written by Ryan Grove <ryan@wonko.com>.
  *
- * This was written to provide a PHP tool to minify javascript but with an emphasis on speed,
- * in particular for tools that want to minify javascript on the fly such as http://www.jch-optimize.net.
- * Based on independent comparison tests, this library consistently returns the same results as JSMin.php
- * but on an average of 20 times faster.
+ * The implementation is maintained as part of the CodeAlfa minify library and is intended
+ * for use when JavaScript needs to be minified at runtime.
  *
- * Permission is hereby granted to use this version of the library under the
- * same terms as jsmin.c, which has the following license:
+ * The original JSMin notice and license are retained below for the JSMin-derived portions:
  *
  *  --
  * Copyright (c) 2002 Douglas Crockford  (www.crockford.com)
@@ -41,9 +38,9 @@ declare(strict_types=1);
  *
  * @package       codealfa/minify
  * @author        Samuel Marshall <sdmarshall73@gmail.com>
- * @copyright (c) 2002, Douglas Crockford <douglas@crockford.com> (jsmin.c)
- * @copyright     Copyright (c) 2020 Samuel Marshall
- * @license       GNU/GPLv3, See LICENSE file
+ * @copyright     Copyright (c) 2002 Douglas Crockford (jsmin.c)
+ * @copyright     Copyright (c) 2020-2026 Samuel Marshall
+ * @license       GPL-3.0-or-later; see LICENSE file
  */
 
 namespace CodeAlfa\Minify;
