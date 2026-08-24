@@ -8,6 +8,13 @@ use PHPUnit\Framework\TestCase;
 
 class JsTest extends TestCase
 {
+    public function testMinifyIsOptimizeAlias(): void
+    {
+        $js = 'var value = 1 + 2;';
+
+        $this->assertSame(Js::optimize($js), Js::minify($js));
+    }
+
     public static function getOptimizeJsData(): array
     {
         return [

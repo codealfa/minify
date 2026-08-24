@@ -1,5 +1,5 @@
 # JCH Minify
-An extremely fast PHP based minification library for Javascript, CSS, Html and Json scripts using Regex Parsing
+An extremely fast PHP-based minification library for JavaScript, CSS, HTML and JSON scripts using Regex Parsing
 
 ## Installation
 Run the following command to use the library in your projects:
@@ -14,10 +14,12 @@ You can use any of the minifiers in the following way:
 use CodeAlfa\Minify\Js;
 
 $sMinifiedJs = Js::optimize($sOriginalJs);
+// Js::minify($sOriginalJs) is an alias.
 ```
 
-## Html Minifier Options
-The HTML minifier takes the following options:
+## HTML Minifier Options
+
+Pass an `HtmlOptions` value to the HTML minifier:
 
 * `cssMinifier` (default `null`): Callback function to minify the contents of in-page `<style>` elements.
 * `jsMinifier` (default `null`): Callback function to minify the contents of in-page `<script>` elements.
@@ -31,17 +33,25 @@ The HTML minifier takes the following options:
 
 **Example:**
 ```php
+use CodeAlfa\Minify\Css;
 use CodeAlfa\Minify\Html;
+use CodeAlfa\Minify\HtmlOptions;
+use CodeAlfa\Minify\Json;
+use CodeAlfa\Minify\Js;
 
-$aOptions = array(
-    'cssMinifier' => array('CodeAlfa\Minify\Css', 'optimize'),
-    'jsMinifier'  => array('CodeAlfa\Minify\Js', 'optimize'),
-    'minifyLevel' => 2,
-    'isHtml5'     => true
+$options = new HtmlOptions(
+    isHtml5: true,
+    minifyLevel: 2,
+    cssMinifier: Css::optimize(...),
+    jsMinifier: Js::optimize(...),
+    jsonMinifier: Json::optimize(...)
 );
 
-$sMinifiedHtml = Html::optimize($sOriginalHtml, $aOptions);
+$sMinifiedHtml = Html::optimize($sOriginalHtml, $options);
 ```
+
+For migrating an existing options array, use `HtmlOptions::fromArray($options)`.
+`Html::minify()` is an alias of `Html::optimize()`.
 
 ## License
 GPL-3.0 or later

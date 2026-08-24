@@ -9,6 +9,13 @@ use PHPUnit\Framework\TestCase;
 
 class HtmlTest extends TestCase
 {
+    public function testMinifyIsOptimizeAlias(): void
+    {
+        $html = '<div> test </div>';
+
+        $this->assertSame(Html::optimize($html), Html::minify($html));
+    }
+
     public static function getOptimizeHtmlData(): array
     {
         return [

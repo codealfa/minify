@@ -8,6 +8,13 @@ use PHPUnit\Framework\TestCase;
 
 class CssTest extends TestCase
 {
+    public function testMinifyIsOptimizeAlias(): void
+    {
+        $css = 'a { color: #ffffff; }';
+
+        $this->assertSame(Css::optimize($css), Css::minify($css));
+    }
+
     public static function getCssOptimizeData(): array
     {
         return [

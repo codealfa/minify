@@ -13,13 +13,11 @@ declare(strict_types=1);
 
 namespace CodeAlfa\Minify;
 
-use CodeAlfa\RegexTokenizer\Debug\Profiler;
 use Exception;
 
 abstract class Base
 {
     use \CodeAlfa\RegexTokenizer\Base;
-    use Profiler;
 
     protected function __construct()
     {
