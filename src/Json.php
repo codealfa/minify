@@ -45,6 +45,7 @@ class Json extends Base
 
         parent::__construct();
     }
+
     /** @throws Exception */
     private function minifyContent(): string
     {

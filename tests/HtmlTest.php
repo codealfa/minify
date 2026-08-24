@@ -3,6 +3,7 @@
 namespace CodeAlfa\Minify\Tests;
 
 use CodeAlfa\Minify\Html;
+use CodeAlfa\Minify\HtmlOptions;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -71,7 +72,7 @@ class HtmlTest extends TestCase
     {
         $html     = $this->getHtml($file);
         $expected = $this->getHtmlMin($expected);
-        $actual   = Html::optimize($html, $options);
+        $actual   = Html::optimize($html, HtmlOptions::fromArray($options));
 
         $this->assertEquals($expected, $actual, $message);
     }

@@ -55,15 +55,13 @@ class Js extends Base
     use \CodeAlfa\RegexTokenizer\Js;
 
     public string $js;
-    protected bool $prepareOnly = false;
+    protected JsOptions $options;
 
 
     /** Minify a JavaScript string. */
-    public static function optimize(string $js, array $options = []): string
+    public static function optimize(string $js, ?JsOptions $options = null): string
     {
-        $prepareOnly = $options['prepareOnly'] ?? false;
-
-        $minifier = new Js($js, $prepareOnly);
+        $minifier = new Js($js, $options ?? new JsOptions());
 
         try {
             return $minifier->minifyContent();
@@ -73,15 +71,15 @@ class Js extends Base
     }
 
     /** Alias of optimize(). */
-    public static function minify(string $js, array $options = []): string
+    public static function minify(string $js, ?JsOptions $options = null): string
     {
         return self::optimize($js, $options);
     }
 
-    protected function __construct(string $js, bool $prepareOnly)
+    protected function __construct(string $js, JsOptions $options)
     {
         $this->js = $js;
-        $this->prepareOnly = $prepareOnly;
+        $this->options = $options;
 
         parent::__construct();
     }
@@ -144,7 +142,7 @@ class Js extends Base
         $rx = "#{$r1}*?\K(?>{$h}|$)#si";
         $this->js = $this->applyReplacement($rx, '', $this->js, 'js1B');
 
-        if ($this->prepareOnly) {
+        if ($this->options->prepareOnly) {
             return $this->js;
         }
 

@@ -13,9 +13,8 @@ declare(strict_types=1);
 
 namespace CodeAlfa\Minify;
 
+use Closure;
 use Exception;
-
-use function is_callable;
 
 class Html extends Base
 {
@@ -23,10 +22,7 @@ class Html extends Base
 
     public string $html = '';
 
-    /**
-     * @psalm-var array{isXhtml: bool, isHtml5: bool, jsMinifier: callable|null, minifyLevel: int, jsonMinifier: callable|null, cssMinifier: callable|null}
-     */
-    protected array $options;
+    protected HtmlOptions $options;
 
     /** Clean comments from an inline script or style block. */
     public static function cleanScript(string $content, string $type): string
@@ -46,14 +42,14 @@ class Html extends Base
                 $content
             ) ?? $content;
         } else {
-            return Js::optimize($content, array('prepareOnly' => true));
+            return Js::optimize($content, new JsOptions(true));
         }
     }
 
     /** Minify an HTML page. */
-    public static function optimize(string $html, ?array $options = null): string
+    public static function optimize(string $html, ?HtmlOptions $options = null): string
     {
-        $min = new Html($html, $options);
+        $min = new Html($html, $options ?? new HtmlOptions());
 
         try {
             return $min->minifyContent();
@@ -63,28 +59,15 @@ class Html extends Base
     }
 
     /** Alias of optimize(). */
-    public static function minify(string $html, ?array $options = null): string
+    public static function minify(string $html, ?HtmlOptions $options = null): string
     {
         return self::optimize($html, $options);
     }
 
-    protected function __construct(string $html, ?array $options)
+    protected function __construct(string $html, HtmlOptions $options)
     {
         $this->html = $html;
-        $paramOptions = [
-            'isXhtml' => false,
-            'isHtml5' => false,
-            'minifyLevel' => 0,
-            'cssMinifier' => null,
-            'jsMinifier' => null,
-            'jsonMinifier' => null
-        ];
-
-        if ($options !== null) {
-            $paramOptions = array_merge($paramOptions, $options);
-        }
-
-        $this->options = $paramOptions;
+        $this->options = $options;
 
         parent::__construct();
     }
@@ -104,7 +87,7 @@ class Html extends Base
         $st = self::htmlElementToken('style');
         $tx = self::htmlElementToken('textarea');
 
-        if ($this->options['minifyLevel'] > 0) {
+        if ($this->options->minifyLevel > 0) {
             //Remove comments (not containing IE conditional comments)
             // language=RegExp
             $rx = "(?>[^<]++|$ie|$sc|$st|$tx|<!DOCTYPE[^>]++>|<)*?\K(?:(?!$ie)$x|$)";
@@ -126,7 +109,7 @@ class Html extends Base
             . "(<style\b(?!(?>\s*+$a)*?\s*+type\s*+=\s*+(?![\"']?text/(?:css|stylesheet)))[^<>]*+>)((?><?[^<]*+)*?)(</\s*+style\s*+>)|$)#i";
         $this->html = $this->applyReplacement($rx, '', $this->html, 'html3', [$this, 'minifyCallback']);
 
-        if ($this->options['minifyLevel'] < 1) {
+        if ($this->options->minifyLevel < 1) {
             return trim($this->html);
         }
 
@@ -169,7 +152,7 @@ class Html extends Base
             . "(?>\s\s++|$)#i";
         $this->html = $this->applyReplacement($rx, ' ', $this->html, 'html7');
 
-        if ($this->options['minifyLevel'] < 2) {
+        if ($this->options->minifyLevel < 2) {
             return trim($this->html);
         }
 
@@ -182,7 +165,7 @@ class Html extends Base
         $j = '<input type="hidden" name="[0-9a-f]{32}" value="1" />';
 
         //Remove quotes from selected attributes
-        if ($this->options['isHtml5']) {
+        if ($this->options->isHtml5) {
             $ns1 = '"[^"\'`=<>\s]*+(?:[\'`=<>\s]|(?<=\\\\)")(?>(?:(?<=\\\\)")?[^"]*+)*?(?<!\\\\)"';
             $ns2 = "'[^'\"`=<>\s]*+(?:[\"`=<>\s]|(?<=\\\\)')(?>(?:(?<=\\\\)')?[^']*+)*?(?<!\\\\)'";
 
@@ -220,10 +203,15 @@ class Html extends Base
 
         $type = stripos($openTag, 'script') === 1 ? (stripos($openTag, 'json') !== false ? 'json' : 'js') : 'css';
 
-        if (is_callable($this->options[$type . 'Minifier'])) {
+        $minifier = match ($type) {
+            'css' => $this->options->cssMinifier,
+            'js' => $this->options->jsMinifier,
+            'json' => $this->options->jsonMinifier,
+        };
+
+        if ($minifier instanceof Closure) {
             // minify
-            /** @psalm-suppress PossiblyNullArgument $content */
-            $content = $this->callMinifier($this->options[$type . 'Minifier'], $content);
+            $content = $this->callMinifier($minifier, $content);
 
             return $this->needsCdata(
                 $content,
@@ -241,6 +229,6 @@ class Html extends Base
 
     protected function needsCdata(string $str, string $type): bool
     {
-        return ($this->options['isXhtml'] && $type === 'js' && (bool) preg_match('#(?:[<&]|\-\-|\]\]>)#', $str));
+        return ($this->options->isXhtml && $type === 'js' && (bool) preg_match('#(?:[<&]|\-\-|\]\]>)#', $str));
     }
 }

@@ -13,11 +13,13 @@ declare(strict_types=1);
 
 namespace CodeAlfa\Minify;
 
+use CodeAlfa\RegexTokenizer\Debug\Profiler;
 use Exception;
 
 abstract class Base
 {
     use \CodeAlfa\RegexTokenizer\Base;
+    use Profiler;
 
     protected function __construct()
     {
@@ -28,6 +30,8 @@ abstract class Base
 
             define('CODEALFA_MINIFY_CONFIGURED', 1);
         }
+
+        $this->profileRegex('', '');
     }
 
     /**
@@ -43,20 +47,13 @@ abstract class Base
         ?callable $callback = null
     ): string
     {
-        static $timingStarted = false;
-
-        if ($timingStarted === false) {
-            $this->_debug('', '');
-            $timingStarted = true;
-        }
-
         if ($callback === null) {
             $opCode = preg_replace($regex, $replacement, $code);
         } else {
             $opCode = preg_replace_callback($regex, $callback, $code);
         }
 
-        $this->_debug($regex, $code, $regexNum);
+        $this->profileRegex($regex, $code, $regexNum);
 
         self::throwExceptionOnPregError();
 
