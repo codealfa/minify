@@ -43,8 +43,7 @@ abstract class Base
         string $code,
         int|string $regexNum,
         ?callable $callback = null
-    ): string
-    {
+    ): string {
         if ($callback === null) {
             $opCode = preg_replace($regex, $replacement, $code);
         } else {
