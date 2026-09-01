@@ -16,15 +16,15 @@ namespace CodeAlfa\Minify;
 use Closure;
 use InvalidArgumentException;
 
-final readonly class HtmlOptions
+final class HtmlOptions
 {
     public function __construct(
-        public bool $isXhtml = false,
-        public bool $isHtml5 = false,
-        public int $minifyLevel = 0,
-        public ?Closure $cssMinifier = null,
-        public ?Closure $jsMinifier = null,
-        public ?Closure $jsonMinifier = null
+        public readonly bool $isXhtml = false,
+        public readonly bool $isHtml5 = false,
+        public readonly int $minifyLevel = 0,
+        public readonly ?Closure $cssMinifier = null,
+        public readonly ?Closure $jsMinifier = null,
+        public readonly ?Closure $jsonMinifier = null
     ) {
     }
 

@@ -15,10 +15,10 @@ namespace CodeAlfa\Minify;
 
 use InvalidArgumentException;
 
-final readonly class JsOptions
+final class JsOptions
 {
     public function __construct(
-        public bool $prepareOnly = false
+        public readonly bool $prepareOnly = false
     ) {
     }
 

@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here.
 
+## [3.0.1] - 2026-09-01
+
+### Changed
+
+- Lowered the minimum supported PHP version to 8.1.
+- Replaced PHP 8.2 readonly-class syntax with PHP 8.1 readonly properties.
+- Lowered the PHPUnit development dependency to the PHP 8.1-compatible 10.x series.
+
 ## [3.0.0] - 2026-08-24
 
 ### Added and improved
@@ -49,3 +57,4 @@ This release contains behavior changes in the minification algorithms. Applicati
 [2.2.0]: https://github.com/codealfa/minify/releases/tag/2.2.0
 [2.1.0]: https://github.com/codealfa/minify/releases/tag/2.1.0
 [3.0.0]: https://github.com/codealfa/minify/releases/tag/3.0.0
+[3.0.1]: https://github.com/codealfa/minify/releases/tag/3.0.1
